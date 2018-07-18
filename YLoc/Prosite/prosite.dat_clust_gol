@@ -1,0 +1,52 @@
+CC   *************************************************************************
+CC
+CC   *************************
+CC   *** PROSITE data file ***
+CC   *************************
+CC
+CC   Release 20.33 of 20-May-2008.
+CC
+CC   *************************************************************************
+CC
+CC   PROSITE is developed by the Swiss Institute of Bioinformatics (SIB) under
+CC   the responsability of Amos Bairoch and Nicolas Hulo.
+CC
+CC   This release was prepared by: Nicolas Hulo, Virginie Bulliard, Petra
+CC   Langendijk-Genevaux and Christian Sigrist with the help of Edouard
+CC   de Castro, Lorenzo Cerutti, Corinne Lachaize and Amos Bairoch.
+CC
+CC   See: http://www.expasy.org/prosite/
+CC   Email: prosite@expasy.org
+CC
+CC   *************************************************************************
+CC
+CC   PROSITE is copyright.   It  is  produced  by  the  Swiss  Institute   of
+CC   Bioinformatics (SIB). There are no restrictions on its use by non-profit
+CC   institutions as long as its  content is in no way modified. Usage by and
+CC   for commercial  entities requires a license agreement.   For information
+CC   about  the  licensing  scheme   send  an  email to license@isb-sib.ch or
+CC   see: http://www.expasy.org/prosite/prosite_license.htm.
+CC
+CC   *************************************************************************
+//
+ID   PARATHYROID; PATTERN.
+AC   PS00335;
+DT   APR-1990 (CREATED); APR-1990 (DATA UPDATE); MAY-2008 (INFO UPDATE).
+DE   Parathyroid hormone family signature.
+PA   V-S-E-x-Q-x(2)-H-x(2)-G.
+NR   /RELEASE=55.4,385721;
+NR   /TOTAL=20(20); /POSITIVE=17(17); /UNKNOWN=0(0); /FALSE_POS=3(3);
+NR   /FALSE_NEG=0; /PARTIAL=1;
+CC   /TAXO-RANGE=??E??; /MAX-REPEAT=1;
+CC   /VERSION=1;
+DR   P58073, PTHR_BOVIN , T; P52211, PTHR_CANFA , T; P17251, PTHR_CHICK , T;
+DR   P12272, PTHR_HUMAN , T; P22858, PTHR_MOUSE , T; Q9GLC7, PTHR_RABIT , T;
+DR   P13085, PTHR_RAT   , T; Q9GK30, PTHR_SHEEP , T; P01268, PTHY_BOVIN , T;
+DR   P52212, PTHY_CANFA , T; P15743, PTHY_CHICK , T; Q9GL67, PTHY_FELCA , T;
+DR   Q27IM2, PTHY_HORSE , T; P01270, PTHY_HUMAN , T; Q9XT35, PTHY_MACFA , T;
+DR   P01269, PTHY_PIG   , T; P04089, PTHY_RAT   , T;
+DR   Q9GMB7, PTHR_HORSE , P;
+DR   Q8GXE6, AKT6_ARATH , F; O96024, B3GT4_HUMAN, F; Q5KM05, SAR1_CRYNE , F;
+3D   1BWX; 1BZG; 1ET1; 1ET2; 1ET3; 1FVY; 1HPH; 1HPY; 1HTH; 1ZWA; 1ZWB; 1ZWC;
+DO   PDOC00296;
+//
