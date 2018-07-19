@@ -33,13 +33,15 @@ The easiest option is to build the Docker image from this repository using the f
 ` $ git clone https://github.com/KohlbacherLab/YLoc.git`  
 ` $ docker build --no-cache -t <your_image_name> YLoc/`  
 
-**Running YLoc**  
+**YLoc Usage**  
 
 YLoc general usage:  
 ` $ python yloc.py <fasta_file> <model_name> <prediction_id(optional)> <print_result(y/n)(optional)>`  
 
 You can print the usage description and available models by executing  
 ` $ python yloc.py`  
+
+**Running YLoc**  
 
 You can either start your container interactively and run YLoc  
 ` $ docker run --rm -it <your_image_name> /bin/bash`  
