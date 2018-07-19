@@ -29,7 +29,11 @@ Nucleic Acids Res., 38, W497–W502
 **Installation**
 
 The easiest option is to build the Docker image from this repository using the following steps:  
-- git clone https://github.com/KohlbacherLab/YLoc.git
-- docker build --no-cache -t <your_image_name> YLoc/
+`$git clone https://github.com/KohlbacherLab/YLoc.git`  
+`$docker build --no-cache -t <your_image_name> YLoc/`  
 
-**Running YLoc**
+**Running YLoc**  
+
+You can either start your container interactively and run YLoc  
+- 
+
