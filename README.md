@@ -1,0 +1,35 @@
+## YLoc
+### An interpretable web server for predicting subcellular localization
+
+This repository mainly provides a containerized installation of YLoc using Docker.  
+In order to install the software outside of a container please read the instructions   
+in this document and the Dockerfile.
+
+**Citing & Further Information**  
+
+If you use YLoc please cite the following publications:
+
+Briesemeister S., Rahnenführer J., and Kohlbacher O. (2010)  
+[YLoc—an interpretable web server for predicting subcellular localization.](https://doi.org/10.1093/bioinformatics/btq115)  
+Bioinformatics, 26. 1232-8
+
+Briesemeister S., Rahnenführer J., and Kohlbacher O. (2010)  
+[YLoc—an interpretable web server for predicting subcellular localization.](https://dx.doi.org/10.1093%2Fnar%2Fgkq477)  
+Nucleic Acids Res., 38, W497–W502  
+  
+  
+**Installation Requirements**  
+
+- Linux OS
+- Docker
+- [BLAST (no legacy BLAST)](https://blast.ncbi.nlm.nih.gov/Blast.cgi)
+- [PrositeScan](https://prosite.expasy.org/scanprosite/)
+
+
+**Installation**
+
+The easiest option is to build the Docker image from this repository using the following steps:  
+- git clone https://github.com/KohlbacherLab/YLoc.git
+- docker build --no-cache -t <your_image_name> YLoc/
+
+**Running YLoc**
