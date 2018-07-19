@@ -22,6 +22,7 @@ Nucleic Acids Res., 38, W497–W502
 
 - Linux OS
 - Docker
+- Python >= 2.7
 - [BLAST (no legacy BLAST)](https://blast.ncbi.nlm.nih.gov/Blast.cgi)
 - [PrositeScan](https://prosite.expasy.org/scanprosite/)
 
@@ -34,6 +35,14 @@ The easiest option is to build the Docker image from this repository using the f
 
 **Running YLoc**  
 
+YLoc general usage:  
+` $ python yloc.py <fasta_file> <model_name> <prediction_id(optional)> <print_result(y/n)(optional)>`  
+
+You can print usage and available models by executing  
+` $ python yloc.py`  
+
 You can either start your container interactively and run YLoc  
-- 
+` $ docker run --rm -it <your_image_name> /bin/bash`  
+`root@<some_hash>:/YLoc# python yloc.py test.fasta "some_model"`  
+
 
