@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/KohlbacherLab/YLoc.svg?branch=master)](https://travis-ci.org/KohlbacherLab/YLoc)  
+Travis CI [![Build Status](https://travis-ci.org/KohlbacherLab/YLoc.svg?branch=master)](https://travis-ci.org/KohlbacherLab/YLoc)  
 
 ## YLoc
 ### An interpretable web server for predicting subcellular localization
