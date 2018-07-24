@@ -1,8 +1,8 @@
-Travis CI  
-[![Build Status](https://travis-ci.org/KohlbacherLab/YLoc.svg?branch=master)](https://travis-ci.org/KohlbacherLab/YLoc)  
-
 ## YLoc
 ### An interpretable web server for predicting subcellular localization
+
+Travis CI  
+[![Build Status](https://travis-ci.org/KohlbacherLab/YLoc.svg?branch=master)](https://travis-ci.org/KohlbacherLab/YLoc)  
 
 This repository mainly provides a containerized installation of YLoc using Docker.  
 In order to install the software outside of a container please read the instructions   
