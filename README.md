@@ -5,7 +5,7 @@ Travis CI
 [![Build Status](https://travis-ci.org/KohlbacherLab/YLoc.svg?branch=master)](https://travis-ci.org/KohlbacherLab/YLoc)  
 
 This repository mainly provides a containerized installation of YLoc using Docker.  
-In order to install the software elsewhere please read the instructions in the [README](YLoc/README)  
+In order to install the software elsewhere please read the instructions in the [README](YLoc/README.txt)  
 file of the YLoc source folder and have a look in the Dockerfile.  
 
 
