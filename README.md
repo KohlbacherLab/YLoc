@@ -15,7 +15,7 @@ If you use YLoc please cite the following publications:
 
 Briesemeister S., Rahnenführer J., and Kohlbacher O. (2010)  
 [YLoc—an interpretable web server for predicting subcellular localization.](https://doi.org/10.1093/bioinformatics/btq115)  
-Bioinformatics, 26. 1232-8
+Bioinformatics, 26, 1232-8
 
 Briesemeister S., Rahnenführer J., and Kohlbacher O. (2010)  
 [YLoc—an interpretable web server for predicting subcellular localization.](https://dx.doi.org/10.1093%2Fnar%2Fgkq477)  
