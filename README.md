@@ -42,7 +42,7 @@ YLoc general usage:
 You can print the usage description and available models by executing  
 ` $ python yloc.py`  
 
-**Running YLoc (Using Docker run)**  
+**Running YLoc Using Docker run**  
 
 You can either start your container interactively and run YLoc  
 ` $ docker run --rm -it <your_image_name> /bin/bash`  
