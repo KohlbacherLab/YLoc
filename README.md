@@ -37,7 +37,7 @@ The easiest option is to build the Docker image from this repository using the f
 
 **YLoc Usage (Interactively in container)**  
 
-YLoc general usage:
+YLoc general usage:  
 ` $ cd YLoc`  
 ` $ python yloc.py <fasta_file> <model_name> <prediction_id(optional)> <print_result(y/n)(optional)>`  
 
