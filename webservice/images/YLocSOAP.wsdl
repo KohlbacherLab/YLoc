@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<definitions name="YLocSOAP"
+targetNamespace="http://abi.inf.uni-tuebingen.de/Services/YLocSOAP/YLocSOAP.wsdl"
+xmlns:tns="http://abi.inf.uni-tuebingen.de/Services/YLocSOAP/YLocSOAP.wsdl"
+xmlns="http://schemas.xmlsoap.org/wsdl/"
+xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+xmlns:myType="YLocType_NS"
+xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+<types>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="YLocType_NS" >
+<complexType name="DictType">
+<all>
+	<element name="value" type="xsd:float"/>
+	<element name="name" type="xsd:string"/>
+</all>
+</complexType>
+<complexType name="ProteinType">
+<all>
+	<element name="sequence" type="xsd:string"/>
+	<element name="name" type="xsd:string"/>
+</all>
+</complexType>
+<complexType name="PredictionRequestType">
+<all>
+	<element name="proteins" type="myType:ProteinType" minOccurs="1" />
+	<element name="model" type="xsd:string"/>
+	<element name="origin" type="xsd:string"/>
+	<element name="homology" type="xsd:string"/>
+</all>
+</complexType>
+<complexType name="PredictionType">
+<all>
+	<element name="sequence_name" type="xsd:string"/>
+	<element name="predicted_location" type="xsd:string"/>
+	<element name="reasoning" type="xsd:string"/>
+	<element name="confidence_score" type="xsd:float"/>
+	<element name="most_similar_AC" type="xsd:string"/>
+	<element name="predicted_probability" type="xsd:float"/>
+	<element name="probabilties" type="myType:DictType" minOccurs="1" />
+	<element name="attributes" type="myType:DictType" minOccurs="1" />
+</all>
+</complexType>
+<complexType name="PredictionListType">
+<all>
+	<element name="prediction" type="myType:PredictionType" minOccurs="1" />
+	
+</all>
+</complexType>
+</schema>
+</types>
+<message name="predictRequest">
+<part name="input" type="myType:PredictionRequestType"/>
+</message>
+<message name="predictResponse">
+<part name="predictions" type="myType:PredictionListType"/>
+</message>
+<portType name="YLoc_PortType">
+<operation name="predict">
+<input message="tns:predictRequest"/>
+<output message="tns:predictResponse"/>
+</operation>
+</portType>
+<binding name="YLoc_Binding" type="tns:YLoc_PortType">
+<soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+<operation name="predict">
+<soap:operation soapAction="urn:YLocSOAP.wsdl#predict"/>
+<input>
+<soap:body use="literal" namespace="urn:YLocSOAP.wsdl"/>
+</input>
+<output>
+<soap:body use="literal" namespace="urn:YLocSOAP.wsdl"/>
+</output>
+</operation>
+</binding>
+<service name="YLoc Prediction Web Service">
+<documentation>YLoc Subcellular Localization Prediction Web Service</documentation>
+<port name="YLoc_Port" binding="tns:YLoc_Binding">
+<soap:address location="http://abi.inf.uni-tuebingen.de/Services/YLocSOAP"/>
+</port>
+</service>
+</definitions>

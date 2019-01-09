@@ -13,18 +13,18 @@ from prosite import *;
 ######### Utils #####################
 #####################################
 
-def uniqify(seq): 
+def uniqify(seq):
 	# order preserving
 	def idfun(x): return x
 	seen = {}
 	result = []
 	for item in seq:
 		marker = idfun(item)
-		if marker in seen: continue	
+		if marker in seen: continue
 		seen[marker] = 1
 		result.append(item)
 	return result
-	
+
 
 
 class FeatureCreator(object):
@@ -76,24 +76,24 @@ class FeatureCreator(object):
 		else:
 			new_response = self.__response + x.__response;
 		return FeatureCreator(self.__aa_sequences + x.__aa_sequences, self.__feature_vectors + x.__feature_vectors, new_response , self.__labels, self.process_id, self.__description + x.__description);
-        
+
 	def size(self):
 		return self.__aa_sequences.size();
-	
+
 	def getDescriptions(self):
 		return self.__description;
-	
+
 	# use with caution!
 	def getFeature(self, index):
 		f_list = [];
 		for i in range(self.__aa_sequences.size()):
 			f_list.append(self.__feature_vectors[i][index]);
 		return f_list;
-		
+
 	def setSequences(self, aa_sequences):
 		self.__aa_sequences = aa_sequences;
-		
-		
+
+
 #####################################
 ######## alphabet access ############
 #####################################
@@ -151,14 +151,14 @@ class FeatureCreator(object):
 				"S" : "0", "T" : "0", "V" : "0", "W" : "0", "Y" : "0"};
 			return alphabet;
 		if (alphabet_name=="structure"):
-			# 1 helix, 2 barrel 
+			# 1 helix, 2 barrel
 			alphabet = {"A" : "1", "C" : "2", "D" : "0", "E" : "0", "F" : "1",
 				"G" : "1", "H" : "1", "I" : "2", "K" : "1", "L" : "1",
 				"M" : "1", "N" : "1", "P" : "0", "Q" : "0", "R" : "1",
 				"S" : "0", "T" : "2", "V" : "2", "W" : "2", "Y" : "2"};
 			return alphabet;
 		if (alphabet_name=="size"):
-			# 0 tiny, 1 small, 2 other 
+			# 0 tiny, 1 small, 2 other
 			alphabet = {"A" : "0", "C" : "1", "D" : "1", "E" : "2", "F" : "2",
 				"G" : "0", "H" : "2", "I" : "2", "K" : "2", "L" : "2",
 				"M" : "2", "N" : "1", "P" : "1", "Q" : "2", "R" : "2",
@@ -191,138 +191,138 @@ class FeatureCreator(object):
 		if (alphabet_name=="glutamate"):
 			alphabet = {"E" : "E"};
 			return alphabet;
-			
+
 		if (alphabet_name=="leucine"):
 			alphabet = {"L" : "L"};
 			return alphabet;
-		
+
 		if (alphabet_name=="isoleucine"):
 			alphabet = {"I" : "I"};
 			return alphabet;
-			
+
 		if (alphabet_name=="alanine"):
 			alphabet = {"A" : "A"};
 			return alphabet;
-		
+
 		if (alphabet_name=="aspartate"):
 			alphabet = {"D" : "D"};
 			return alphabet;
-			
+
 		if (alphabet_name=="arginine"):
 			alphabet = {"R" : "R"};
 			return alphabet;
-		
+
 		if (alphabet_name=="tyrosine"):
 			alphabet = {"Y" : "Y"};
 			return alphabet;
-		
+
 		if (alphabet_name=="lysine"):
 			alphabet = {"K" : "K"};
 			return alphabet;
-		
+
 		if (alphabet_name=="phenylalanine"):
 			alphabet = {"F" : "F"};
 			return alphabet;
-		
+
 		if (alphabet_name=="methionine"):
 			alphabet = {"M" : "M"};
 			return alphabet;
-		
+
 		if (alphabet_name=="asparagine"):
 			alphabet = {"N" : "N"};
 			return alphabet;
-	
+
 		if (alphabet_name=="cysteine"):
 			alphabet = {"C" : "C"};
 			return alphabet;
-	
+
 		if (alphabet_name=="histidine"):
 			alphabet = {"H" : "H"};
 			return alphabet;
-	
+
 		if (alphabet_name=="glutamine"):
 			alphabet = {"Q" : "Q"};
 			return alphabet;
-	
+
 		if (alphabet_name=="proline"):
 			alphabet = {"P" : "P"};
 			return alphabet;
-			
+
 		if (alphabet_name=="serine"):
 			alphabet = {"S" : "S"};
 			return alphabet;
-			
+
 		if (alphabet_name=="valine"):
 			alphabet = {"V" : "V"};
 			return alphabet;
-		
+
 		if (alphabet_name=="threonine"):
 			alphabet = {"T" : "T"};
 			return alphabet;
-			
+
 		if (alphabet_name=="tryptophane"):
 			alphabet = {"W" : "W"};
 			return alphabet;
-	
+
 		if (alphabet_name=="structure_none"):
 			alphabet = {"D" : "0", "E" : "0", "P" : "0", "Q" : "0", "S" : "0"};
 			return alphabet
-			
+
 		if (alphabet_name=="structure_helix"):
 			alphabet = {"A" : "1",  "F" : "1","G" : "1", "H" : "1", "K" : "1", "L" : "1",
 				"M" : "1", "N" : "1", "R" : "1"};
 			return alphabet
-		
+
 		if (alphabet_name=="structure_sheet"):
 			# 1 helix, 2 barrel
 			alphabet = {"C" : "2", "I" : "2", "T" : "2", "V" : "2", "W" : "2", "Y" : "2"};
 			return alphabet;
-	
+
 		if (alphabet_name=="unpolar"):
 			# 1 polar residues
 			alphabet = {"A" : "0", "C" : "0", "F" : "0",
 				"G" : "0", "I" : "0", "L" : "0",
-				"M" : "0", "P" : "0", 
+				"M" : "0", "P" : "0",
 				"S" : "0", "T" : "0", "V" : "0", "W" : "0", "Y" : "0"};
 			return alphabet
-		
+
 		if (alphabet_name=="polar_polar"):
 			# 1 polar residues
-			alphabet = {"D" : "1", "E" : "1", "H" : "1",  "K" : "1", 
+			alphabet = {"D" : "1", "E" : "1", "H" : "1",  "K" : "1",
 				"N" : "1", "Q" : "1", "R" : "1"};
 			return alphabet
-	
+
 		if (alphabet_name=="charge_none"):
 			# 1 negative, 2 positive
 			alphabet = {"A" : "0", "C" : "0",  "F" : "0",
 				"G" : "0", "I" : "0", "L" : "0",
-				"M" : "0", "N" : "0", "P" : "0", "Q" : "0", 
+				"M" : "0", "N" : "0", "P" : "0", "Q" : "0",
 				"S" : "0", "T" : "0", "V" : "0", "W" : "0", "Y" : "0"};
 			return alphabet
-		
+
 		if (alphabet_name=="charge_negative"):
 			# 1 negative, 2 positive
 			alphabet = {"D" : "1", "E" : "1"};
 			return alphabet;
-		
+
 		if (alphabet_name=="charge_positive"):
 			# 1 negative, 2 positive
 			alphabet = {"H" : "2", "K" : "2", "R" : "2" };
 			return alphabet
-		
+
 		if (alphabet_name=="size_tiny"):
-			alphabet = {"A" : "0", 
+			alphabet = {"A" : "0",
 				"G" : "0",
 				"S" : "0"};
 			return alphabet;
-		
+
 		if (alphabet_name=="size_small"):
 			# 0 tiny, 1 small, 2 other
-			alphabet = {"C" : "1", "D" : "1", 
-				 "N" : "1", "P" : "1", 
+			alphabet = {"C" : "1", "D" : "1",
+				 "N" : "1", "P" : "1",
 				 "T" : "1", "V" : "1"};
 			return alphabet;
-		
+
 		if (alphabet_name=="size_large"):
 			# 0 tiny, 1 small, 2 other
 			alphabet = {"E" : "2", "F" : "2",
@@ -330,30 +330,30 @@ class FeatureCreator(object):
 				"M" : "2", "Q" : "2", "R" : "2",
 				"W" : "2", "Y" : "2"};
 			return alphabet;
-		
+
 		if (alphabet_name=="hydrophob_very"):
 			alphabet = {"C" : "2", "F" : "2",
 				"I" : "2", "L" : "2",
 				"M" : "2", "V" : "2", "W" : "2"};
 			return alphabet;
-		
+
 		if (alphabet_name=="hydrophob_slightly"):
-			alphabet = {"A" : "1", 
-				"G" : "1", "H" : "1", 
-				"P" : "1", 
+			alphabet = {"A" : "1",
+				"G" : "1", "H" : "1",
+				"P" : "1",
 				"S" : "1", "T" : "1", "Y" : "1"};
 			return alphabet;
-		
+
 		if (alphabet_name=="hydrophob_none"):
-			alphabet = {"D" : "0", "E" : "0", "K" : "0", "N" : "0", "Q" : "0", 
+			alphabet = {"D" : "0", "E" : "0", "K" : "0", "N" : "0", "Q" : "0",
 			"R" : "0"};
 			return alphabet;
-			
+
 		if (alphabet_name=="hydroxylated_hydroxy"):
 			# 0 hydroxy, 1 other
 			alphabet = {"L" : "1", "P" : "1", "R" : "1","S" : "1", "Y" : "1"};
 			return alphabet;
-			
+
 		if (alphabet_name=="hydroxylated_none"):
 			# 0 hydroxy, 1 other
 			alphabet = {"A" : "0", "C" : "0", "D" : "0", "E" : "0", "F" : "0",
@@ -361,26 +361,26 @@ class FeatureCreator(object):
 				"M" : "0", "N" : "0", "Q" : "0",
 				"T" : "0", "V" : "0", "W" : "0"};
 			return alphabet;
-			
+
 		if (alphabet_name=="aromatic_none"):
 			# 0 aromatic, 1 other
-			alphabet = {"A" : "1", "C" : "1", "D" : "1", "E" : "1", 
+			alphabet = {"A" : "1", "C" : "1", "D" : "1", "E" : "1",
 				"G" : "1", "I" : "1", "K" : "1", "L" : "1",
 				"M" : "1", "N" : "1", "P" : "1", "Q" : "1", "R" : "1",
 				"S" : "1", "T" : "1", "V" : "1"};
 			return alphabet;
-		
+
 		if (alphabet_name=="aromatic_aromatic"):
 			alphabet = {"F" : "0", "H" : "0", "W" : "0", "Y" : "0"};
 			return alphabet;
-	
+
 		if (alphabet_name=="aliphatic_helix_basic"):
 			# 0 basic [RK}
 			# 1 hydrophobic uncharged [ILVMFYWCTAG]
 			# 2 others
 			alphabet = {"K" : "0", "R" : "0"};
 			return alphabet;
-			
+
 		if (alphabet_name=="aliphatic_helix_uncharged"):
 			# 0 basic [RK}
 			# 1 hydrophobic uncharged [ILVMFYWCTAG]
@@ -390,13 +390,13 @@ class FeatureCreator(object):
 				"M" : "1",
 				"T" : "1", "V" : "1", "W" : "1", "Y" : "1"};
 			return alphabet;
-		
+
 		if (alphabet_name=="aliphatic_helix_other"):
 			alphabet = {"D" : "2", "E" : "2", "H" : "2", "N" : "2",
-				"P" : "2", "Q" : "2", 
+				"P" : "2", "Q" : "2",
 				"S" : "2"};
 			return alphabet;
-			
+
 		raise "FeatureCreator: get_alphabet: unknown alphabet name";
 
 #####################################
@@ -421,7 +421,7 @@ class FeatureCreator(object):
 			for sequence_nr in range(self.__aa_sequences.size()):
 				self.__response[sequence_nr] = feature;
 		self.__response_classes = uniqify(self.__response);
-		
+
 	def setResponseClasses(self, response_vector):
 		self.__response_classes = response_vector;
 
@@ -442,10 +442,10 @@ class FeatureCreator(object):
 				new_sequence = new_sequence + elem;
 		return new_sequence;
 
-	#### simple 
-	
+	#### simple
+
 	def addSize(self):
-		for sequence_nr in range(self.__aa_sequences.size()):		
+		for sequence_nr in range(self.__aa_sequences.size()):
 			sequence = self.__aa_sequences.get(sequence_nr)[1];
 			self.__feature_vectors[sequence_nr].append(len(sequence));
 		self.__labels.append("size");
@@ -460,26 +460,26 @@ class FeatureCreator(object):
 		return count;
 
 	def addCountLetter(self, start_pos, end_pos,letter, alphabet_name):
-		translation_alphabet = self.__get_alphabet(alphabet_name); 
-		for sequence_nr in range(self.__aa_sequences.size()):	
+		translation_alphabet = self.__get_alphabet(alphabet_name);
+		for sequence_nr in range(self.__aa_sequences.size()):
 			sequence = self.__translateSequence(self.__aa_sequences.get(sequence_nr)[1][start_pos:end_pos], translation_alphabet);
 			counts = self.__countLetter(sequence, letter);
 			self.__feature_vectors[sequence_nr].append(counts);
 		self.__labels.append("letterCount|"+str(start_pos)+"-"+str(end_pos)+"|"+letter+"|"+alphabet_name);
-		
+
 	def addCountLetterNormed(self, start_pos, end_pos,letter, alphabet_name):
-		translation_alphabet = self.__get_alphabet(alphabet_name); 
-		for sequence_nr in range(self.__aa_sequences.size()):		
+		translation_alphabet = self.__get_alphabet(alphabet_name);
+		for sequence_nr in range(self.__aa_sequences.size()):
 			sequence = self.__translateSequence(self.__aa_sequences.get(sequence_nr)[1], translation_alphabet);
 			counts = self.__countLetter(sequence[start_pos:end_pos], letter);
 			wholecounts = self.__countLetter(sequence, letter);
 			self.__feature_vectors[sequence_nr].append(float(counts) / (wholecounts+1));
 		self.__labels.append("letterCountNormed|"+str(start_pos)+"-"+str(end_pos)+"|"+letter+"|"+alphabet_name);
-		
-		
+
+
 	def addMaxWindowCountLetter(self, start_pos, end_pos, wide, letter, alphabet_name):
-		translation_alphabet = self.__get_alphabet(alphabet_name); 
-		for sequence_nr in range(self.__aa_sequences.size()):		
+		translation_alphabet = self.__get_alphabet(alphabet_name);
+		for sequence_nr in range(self.__aa_sequences.size()):
 			sequence = self.__translateSequence(self.__aa_sequences.get(sequence_nr)[1][start_pos:end_pos], translation_alphabet);
 			max_count = 0;
 			for pos in range(1, len(sequence)-(wide*2-1)):
@@ -488,26 +488,26 @@ class FeatureCreator(object):
 					max_count = counts;
 			self.__feature_vectors[sequence_nr].append(max_count);
 		self.__labels.append("maxLetterCountWin|"+str(start_pos)+"-"+str(end_pos)+"|"+str(wide)+"|"+letter+"|"+alphabet_name);
-	
+
 
 	#### count alphabet  = hist
 
 	def __getHist(self, translated_sequence, alphabet):
 		# create alphabet values
 		alphabet_values = uniqify(alphabet.values());
-		# create empty histogram dictionary from translation alphabet 
-		hist = {}; 
+		# create empty histogram dictionary from translation alphabet
+		hist = {};
 		for key in alphabet_values:
 			hist[key] = 0;
 		# fill histogram by previous translation of sequences
 		for aa in translated_sequence:
 			if aa in alphabet_values:
 				hist[aa] += 1;
-        	return(hist);                
+        	return(hist);
 
 	def addHist(self, start_pos, end_pos, alphabet_name = "aminoacid"):
 		# get alphabet
-		translation_alphabet = self.__get_alphabet(alphabet_name); 
+		translation_alphabet = self.__get_alphabet(alphabet_name);
 		alphabet_values = uniqify(translation_alphabet.values());
 		# get histogramm for every sequence
 		for sequence_nr in range(self.__aa_sequences.size()):
@@ -519,10 +519,10 @@ class FeatureCreator(object):
 
 		for key in alphabet_values:
 			self.__labels.append("hist|"+str(start_pos)+"-"+str(end_pos)+"|"+alphabet_name+"|"+key);
-			
+
 	def addNormalizedHist(self, start_pos, end_pos, alphabet_name = "aminoacid"):
 		# get alphabet
-		translation_alphabet = self.__get_alphabet(alphabet_name); 
+		translation_alphabet = self.__get_alphabet(alphabet_name);
 		alphabet_values = uniqify(translation_alphabet.values());
 		# get histogramm for every sequence
 		for sequence_nr in range(self.__aa_sequences.size()):
@@ -544,7 +544,7 @@ class FeatureCreator(object):
 
 	def addWindowHist(self, start_pos, end_pos, window_size, alphabet_name = "aminoacid"):
 		# get alphabet
-		translation_alphabet = self.__get_alphabet(alphabet_name); 
+		translation_alphabet = self.__get_alphabet(alphabet_name);
 		alphabet_values = uniqify(translation_alphabet.values());
 		# get histogramm for every sequence and every window
 		for sequence_nr in range(self.__aa_sequences.size()):
@@ -585,7 +585,7 @@ class FeatureCreator(object):
 
 	def addHistKmer(self, start_pos, end_pos, kmer, alphabet_name = "aminoacid"):
 		# create empty hist
-		translation_alphabet = self.__get_alphabet(alphabet_name); 
+		translation_alphabet = self.__get_alphabet(alphabet_name);
 		hist_blank = self.__getAlphabetKmers(translation_alphabet, kmer);
 		# get histogramm for every sequence
 		for sequence_nr in range(self.__aa_sequences.size()):
@@ -604,14 +604,14 @@ class FeatureCreator(object):
 			self.__labels.append("histkmer|"+str(start_pos)+"-"+str(end_pos)+"|"+str(kmer)+"|"+alphabet_name+"|"+key);
 
 	#### add properties
-	
+
 	def __getProperties(self, sequence, properties):
 		# sum over property
 		sum_property = 0;
 		for aa in sequence:
 			if aa in properties.keys():
 				sum_property += properties[aa];
-        	return(sum_property);          
+        	return(sum_property);
 
 	def  addProperties(self, start_pos, end_pos, property_name = "volume" ):
 		# get property table
@@ -620,9 +620,9 @@ class FeatureCreator(object):
 		for sequence_nr in range(self.__aa_sequences.size()):
 			sequence = self.__aa_sequences.get(sequence_nr)[1][start_pos:end_pos];
 			value = self.__getProperties(sequence, properties);
-			self.__feature_vectors[sequence_nr].append(value);	
+			self.__feature_vectors[sequence_nr].append(value);
 		self.__labels.append("property_sum|"+str(start_pos)+"-"+str(end_pos)+"|"+property_name);
-	
+
 	def addWindowProperties(self, start_pos, end_pos, window_size, property_name = "volume" ):
 		# get property table
 		properties = self.__get_properties(property_name);
@@ -635,7 +635,7 @@ class FeatureCreator(object):
 				if (window_left < 1 & window_right > len(sequence)):
 					raise "FeatureCreator: addWindowProperties: Start or end position with window is out of sequence bounds";
 				value = self.__getProperties(sequence[window_left:window_right], properties);
-				self.__feature_vectors[sequence_nr].append(value);	
+				self.__feature_vectors[sequence_nr].append(value);
 		# add labels to label vector
 		for aa_pos in range(start_pos, end_pos):
 			window_left = start_pos - window_size;
@@ -653,7 +653,7 @@ class FeatureCreator(object):
 				sum = self.__getProperties(sequence[aa_pos:(aa_pos+wide)], properties);
 				if (sum > max):
 					max = sum;
-			self.__feature_vectors[sequence_nr].append(max);	
+			self.__feature_vectors[sequence_nr].append(max);
 		self.__labels.append("property_max|"+str(start_pos)+"-"+str(end_pos)+"|"+str(wide)+"|"+property_name);
 
 	def addMinProperties(self, start_pos, end_pos, wide, property_name = "volume" ):
@@ -667,11 +667,11 @@ class FeatureCreator(object):
 				sum = self.__getProperties(sequence[aa_pos:(aa_pos+wide)], properties);
 				if (sum < min):
 					min = sum;
-			self.__feature_vectors[sequence_nr].append(min);	
+			self.__feature_vectors[sequence_nr].append(min);
 		self.__labels.append("property_min|"+str(start_pos)+"-"+str(end_pos)+"|"+str(wide)+"|"+property_name);
 
 
-	#### pseudo aa composition 
+	#### pseudo aa composition
 
 	def __getPseudoComposition(self, sequence, dist, letter):
 		count = 0;
@@ -682,12 +682,12 @@ class FeatureCreator(object):
 				count += 1;
 		count = float(count) / (len(sequence)-dist);
 		return count;
-				
+
 	def addMaxPseudoComposition(self, start_pos, end_pos, alphabet_name):
 		for sequence_nr in range(self.__aa_sequences.size()):
 			sequence = self.__aa_sequences.get(sequence_nr)[1][start_pos:end_pos];
 			#get translation alphabet and translate
-			alphabet = self.__get_alphabet(alphabet_name); 
+			alphabet = self.__get_alphabet(alphabet_name);
 			alphabet_values = uniqify(alphabet.values());
 			sequence = self.__translateSequence(sequence, alphabet)
 			for letter in alphabet_values:
@@ -701,7 +701,7 @@ class FeatureCreator(object):
 						max = count;
 				self.__feature_vectors[sequence_nr].append(max);
 		# add labels to label vector
-		translation_alphabet = self.__get_alphabet(alphabet_name); 
+		translation_alphabet = self.__get_alphabet(alphabet_name);
 		alphabet_values = uniqify(translation_alphabet.values());
 		for key in alphabet_values:
 			self.__labels.append("maxPaacount|"+str(start_pos)+"-"+str(end_pos)+"|"+alphabet_name+"|"+key);
@@ -710,12 +710,12 @@ class FeatureCreator(object):
 		for sequence_nr in range(self.__aa_sequences.size()):
 			sequence = self.__aa_sequences.get(sequence_nr)[1][start_pos:end_pos];
 			#get translation alphabet and translate
-			alphabet = self.__get_alphabet(alphabet_name); 
+			alphabet = self.__get_alphabet(alphabet_name);
 			alphabet_values = uniqify(alphabet.values());
 			sequence = self.__translateSequence(sequence, alphabet)
 			for letter in alphabet_values:
 				max = 0;
-				for dist in range(1, 20): 
+				for dist in range(1, 20):
 				#for dist in range(1, end_pos - start_pos): !!!!!!!!!!!!
 					count = -1;
 					if (len(sequence)>dist):
@@ -724,7 +724,7 @@ class FeatureCreator(object):
 						max = count;
 				self.__feature_vectors[sequence_nr].append(max);
 		# add labels to label vector
-		translation_alphabet = self.__get_alphabet(alphabet_name); 
+		translation_alphabet = self.__get_alphabet(alphabet_name);
 		alphabet_values = uniqify(translation_alphabet.values());
 		for key in alphabet_values:
 			self.__labels.append("maxPaacountNormed|"+str(start_pos)+"-"+str(end_pos)+"|"+alphabet_name+"|"+key);
@@ -733,13 +733,13 @@ class FeatureCreator(object):
 		for sequence_nr in range(self.__aa_sequences.size()):
 			sequence = self.__aa_sequences.get(sequence_nr)[1][start_pos:end_pos];
 			#get translation alphabet and translate
-			alphabet = self.__get_alphabet(alphabet_name); 
+			alphabet = self.__get_alphabet(alphabet_name);
 			alphabet_values = uniqify(alphabet.values());
 			sequence = self.__translateSequence(sequence, alphabet)
 			for letter in alphabet_values:
 				min = 100000;
 				#for dist in range(1, end_pos - start_pos): !!!!!!!!!!
-				for dist in range(10, 20): 
+				for dist in range(10, 20):
 					count = -1;
 					if (len(sequence)>dist):
 						count = self.__getPseudoComposition(sequence, dist, letter) / dist;
@@ -747,17 +747,17 @@ class FeatureCreator(object):
 						min = count;
 				self.__feature_vectors[sequence_nr].append(min);
 		# add labels to label vector
-		translation_alphabet = self.__get_alphabet(alphabet_name); 
+		translation_alphabet = self.__get_alphabet(alphabet_name);
 		alphabet_values = uniqify(translation_alphabet.values());
 		for key in alphabet_values:
 			self.__labels.append("minPaacount|"+str(start_pos)+"-"+str(end_pos)+"|"+alphabet_name+"|"+key);
 
-				
+
 	def addPseudoComposition(self, start_pos, end_pos, dist_start, dist_end, alphabet_name):
 		for sequence_nr in range(self.__aa_sequences.size()):
 			sequence = self.__aa_sequences.get(sequence_nr)[1][start_pos:end_pos];
 			#get translation alphabet and translate
-			alphabet = self.__get_alphabet(alphabet_name); 
+			alphabet = self.__get_alphabet(alphabet_name);
 			alphabet_values = uniqify(alphabet.values());
 			sequence = self.__translateSequence(sequence, alphabet)
 			for dist in range(dist_start, dist_end):
@@ -765,15 +765,15 @@ class FeatureCreator(object):
 					count = self.__getPseudoComposition(sequence, dist, letter);
 					self.__feature_vectors[sequence_nr].append(count);
 		# add labels to label vector
-		translation_alphabet = self.__get_alphabet(alphabet_name); 
+		translation_alphabet = self.__get_alphabet(alphabet_name);
 		alphabet_values = uniqify(translation_alphabet.values());
 		for dist in range(dist_start, dist_end):
 			for key in alphabet_values:
 				self.__labels.append("Paacount|d="+str(dist)+"|"+str(start_pos)+"-"+str(end_pos)+"|"+alphabet_name+"|"+key);
 
 
-#### pseudo aa composition 
-	
+#### pseudo aa composition
+
 	def __getAutoCorrelation(self, sequence, dist):
 		corr = 0;
 		for pos in range(1,len(sequence) - dist):
@@ -794,10 +794,10 @@ class FeatureCreator(object):
 		for sequence_nr in range(self.__aa_sequences.size()):
 			sequence = self.__aa_sequences.get(sequence_nr)[1][start_pos:end_pos];
 			#get translation alphabet and translate
-			properties = self.__get_properties(property_name); 
+			properties = self.__get_properties(property_name);
 			seq = self.__seq2List(sequence, properties);
 			max = 0;
-			for dist in range(1, 20): 
+			for dist in range(1, 20):
 			#for dist in range(1, end_pos - start_pos): !!!!!!!!
 				count = -1;
 				if (len(sequence)>dist):
@@ -812,7 +812,7 @@ class FeatureCreator(object):
 		for sequence_nr in range(self.__aa_sequences.size()):
 			sequence = self.__aa_sequences.get(sequence_nr)[1][start_pos:end_pos];
 			#get translation alphabet and translate
-			properties = self.__get_properties(property_name); 
+			properties = self.__get_properties(property_name);
 			seq = self.__seq2List(sequence, properties);
 			for dist in range(dist_start, dist_end):
 				count = 0;
@@ -824,9 +824,9 @@ class FeatureCreator(object):
 		for dist in range(dist_start, dist_end):
 			self.__labels.append("AutoCorrelatuion|d="+str(dist)+"|"+str(start_pos)+"-"+str(end_pos)+"|"+property_name);
 
-		
+
 	#### GO terms
-	
+
 	def addGoTerms(self, select = []):
 		go = GoFilter(self.process_id);
 		(labels, features, description, most_similar_list) = go.getGoFeatures(self.__aa_sequences, select);
@@ -840,9 +840,9 @@ class FeatureCreator(object):
 				for feature_nr in range(len(description[sequence_nr])):
 					self.__description[sequence_nr][feature_nr+offset] = description[sequence_nr][feature_nr];
 		return most_similar_list;
-	
+
 	#### Prosite Motifs
-	
+
 	def addPrositeMotifs(self, cluster = ""):
 		prosite = PrositeFilter(self.process_id);
 		(labels, features,description) = prosite.getPrositeFeatures(self.__aa_sequences, cluster);
@@ -855,10 +855,10 @@ class FeatureCreator(object):
 			for sequence_nr in range(self.__aa_sequences.size()):
 				for feature_nr in range(len(description[sequence_nr])):
 					self.__description[sequence_nr][feature_nr+offset] = description[sequence_nr][feature_nr];
-		
-	
+
+
 	#### Sorting Signals
-	
+
 	def addSortingSignals(self):
 		signals = SortingSignals();
 		for sequence_nr in range(self.__aa_sequences.size()):
@@ -898,7 +898,7 @@ class FeatureCreator(object):
 			feature = signals.getMonoNLSSignal1(sequence);
 			self.__feature_vectors[sequence_nr].append(feature);
 		self.__labels.append("Mono_NLS_signal1");
-	
+
 	def addMonoNLS3SortingSignal(self):
 		signals = SortingSignals();
 		for sequence_nr in range(self.__aa_sequences.size()):
@@ -906,7 +906,7 @@ class FeatureCreator(object):
 			feature = signals.getMonoNLSSignal3(sequence);
 			self.__feature_vectors[sequence_nr].append(feature);
 		self.__labels.append("Mono_NLS_signal3");
-	
+
 	def addMonoNLS4SortingSignal(self):
 		signals = SortingSignals();
 		for sequence_nr in range(self.__aa_sequences.size()):
@@ -914,7 +914,7 @@ class FeatureCreator(object):
 			feature = signals.getMonoNLSSignal4(sequence);
 			self.__feature_vectors[sequence_nr].append(feature);
 		self.__labels.append("Mono_NLS_signal4");
-	
+
 	def addMonoNLS6SortingSignal(self):
 		signals = SortingSignals();
 		for sequence_nr in range(self.__aa_sequences.size()):
@@ -922,7 +922,7 @@ class FeatureCreator(object):
 			feature = signals.getMonoNLSSignal6(sequence);
 			self.__feature_vectors[sequence_nr].append(feature);
 		self.__labels.append("Mono_NLS_signal6");
-	
+
 	def addMonoNLS11SortingSignal(self):
 		signals = SortingSignals();
 		for sequence_nr in range(self.__aa_sequences.size()):
@@ -930,7 +930,7 @@ class FeatureCreator(object):
 			feature = signals.getMonoNLSSignal11(sequence);
 			self.__feature_vectors[sequence_nr].append(feature);
 		self.__labels.append("Mono_NLS_signal11");
-	
+
 	def addMonoNLS12SortingSignal(self):
 		signals = SortingSignals();
 		for sequence_nr in range(self.__aa_sequences.size()):
@@ -938,7 +938,7 @@ class FeatureCreator(object):
 			feature = signals.getMonoNLSSignal12(sequence);
 			self.__feature_vectors[sequence_nr].append(feature);
 		self.__labels.append("Mono_NLS_signal12");
-	
+
 	def addMonoNLS15SortingSignal(self):
 		signals = SortingSignals();
 		for sequence_nr in range(self.__aa_sequences.size()):
@@ -946,7 +946,7 @@ class FeatureCreator(object):
 			feature = signals.getMonoNLSSignal15(sequence);
 			self.__feature_vectors[sequence_nr].append(feature);
 		self.__labels.append("Mono_NLS_signal15");
-	
+
 	def addMonoNLS18SortingSignal(self):
 		signals = SortingSignals();
 		for sequence_nr in range(self.__aa_sequences.size()):
@@ -954,7 +954,7 @@ class FeatureCreator(object):
 			feature = signals.getMonoNLSSignal18(sequence);
 			self.__feature_vectors[sequence_nr].append(feature);
 		self.__labels.append("Mono_NLS_signal18");
-	
+
 	def addMonoNLS19SortingSignal(self):
 		signals = SortingSignals();
 		for sequence_nr in range(self.__aa_sequences.size()):
@@ -962,7 +962,7 @@ class FeatureCreator(object):
 			feature = signals.getMonoNLSSignal19(sequence);
 			self.__feature_vectors[sequence_nr].append(feature);
 		self.__labels.append("Mono_NLS_signal19");
-	
+
 	def addMonoNLS21SortingSignal(self):
 		signals = SortingSignals();
 		for sequence_nr in range(self.__aa_sequences.size()):
@@ -970,7 +970,7 @@ class FeatureCreator(object):
 			feature = signals.getMonoNLSSignal21(sequence);
 			self.__feature_vectors[sequence_nr].append(feature);
 		self.__labels.append("Mono_NLS_signal21");
-	
+
 	def addMonoNLS22SortingSignal(self):
 		signals = SortingSignals();
 		for sequence_nr in range(self.__aa_sequences.size()):
@@ -978,7 +978,7 @@ class FeatureCreator(object):
 			feature = signals.getMonoNLSSignal22(sequence);
 			self.__feature_vectors[sequence_nr].append(feature);
 		self.__labels.append("Mono_NLS_signal22");
-	
+
 	def addMonoNLS25SortingSignal(self):
 		signals = SortingSignals();
 		for sequence_nr in range(self.__aa_sequences.size()):
@@ -986,7 +986,7 @@ class FeatureCreator(object):
 			feature = signals.getMonoNLSSignal25(sequence);
 			self.__feature_vectors[sequence_nr].append(feature);
 		self.__labels.append("Mono_NLS_signal25");
-	
+
 	def addMonoNLS26SortingSignal(self):
 		signals = SortingSignals();
 		for sequence_nr in range(self.__aa_sequences.size()):
@@ -994,7 +994,7 @@ class FeatureCreator(object):
 			feature = signals.getMonoNLSSignal26(sequence);
 			self.__feature_vectors[sequence_nr].append(feature);
 		self.__labels.append("Mono_NLS_signal26");
-	
+
 	def addMonoNLS27SortingSignal(self):
 		signals = SortingSignals();
 		for sequence_nr in range(self.__aa_sequences.size()):
@@ -1002,7 +1002,7 @@ class FeatureCreator(object):
 			feature = signals.getMonoNLSSignal27(sequence);
 			self.__feature_vectors[sequence_nr].append(feature);
 		self.__labels.append("Mono_NLS_signal27");
-	
+
 	def addBipartiteNLSSortingSignal(self):
 		signals = SortingSignals();
 		for sequence_nr in range(self.__aa_sequences.size()):
@@ -1010,7 +1010,7 @@ class FeatureCreator(object):
 			feature = signals.getBipartiteNLSSignal(sequence);
 			self.__feature_vectors[sequence_nr].append(feature);
 		self.__labels.append("Bipartite_NLS_signal");
-	
+
 	def addERSortingSignal(self):
 		signals = SortingSignals();
 		for sequence_nr in range(self.__aa_sequences.size()):
@@ -1018,7 +1018,7 @@ class FeatureCreator(object):
 			feature = signals.getERSignal(sequence);
 			self.__feature_vectors[sequence_nr].append(feature);
 		self.__labels.append("ER_signal");
-	
+
 	def addER4SortingSignal(self):
 		signals = SortingSignals();
 		for sequence_nr in range(self.__aa_sequences.size()):
@@ -1026,7 +1026,7 @@ class FeatureCreator(object):
 			feature = signals.getERSignal4(sequence);
 			self.__feature_vectors[sequence_nr].append(feature);
 		self.__labels.append("ER_signal4");
-	
+
 	def addER5SortingSignal(self):
 		signals = SortingSignals();
 		for sequence_nr in range(self.__aa_sequences.size()):
@@ -1034,7 +1034,7 @@ class FeatureCreator(object):
 			feature = signals.getERSignal5(sequence);
 			self.__feature_vectors[sequence_nr].append(feature);
 		self.__labels.append("ER_signal5");
-	
+
 	def addPeroxi1SortingSignal(self):
 		signals = SortingSignals();
 		for sequence_nr in range(self.__aa_sequences.size()):
@@ -1050,7 +1050,7 @@ class FeatureCreator(object):
                         feature = signals.getPeroxiSignal3(sequence);
                         self.__feature_vectors[sequence_nr].append(feature);
                 self.__labels.append("Peroxi_signal3");
-	
+
 	def addPeroxi4SortingSignal(self):
 		signals = SortingSignals();
 		for sequence_nr in range(self.__aa_sequences.size()):
@@ -1058,7 +1058,7 @@ class FeatureCreator(object):
 			feature = signals.getPeroxiSignal4(sequence);
 			self.__feature_vectors[sequence_nr].append(feature);
 		self.__labels.append("Peroxi_signal4");
-	
+
 	def addPeroxi8SortingSignal(self):
 		signals = SortingSignals();
 		for sequence_nr in range(self.__aa_sequences.size()):
@@ -1066,7 +1066,7 @@ class FeatureCreator(object):
 			feature = signals.getPeroxiSignal8(sequence);
 			self.__feature_vectors[sequence_nr].append(feature);
 		self.__labels.append("Peroxi_signal8");
-	
+
 	def addPeroxi9SortingSignal(self):
 		signals = SortingSignals();
 		for sequence_nr in range(self.__aa_sequences.size()):
@@ -1074,7 +1074,7 @@ class FeatureCreator(object):
 			feature = signals.getPeroxiSignal9(sequence);
 			self.__feature_vectors[sequence_nr].append(feature);
 		self.__labels.append("Peroxi_signal9");
-		
+
  	def addGolgi1SortingSignal(self):
                 signals = SortingSignals();
                 for sequence_nr in range(self.__aa_sequences.size()):
@@ -1090,7 +1090,7 @@ class FeatureCreator(object):
 			feature = signals.getGolgiSignal3(sequence);
 			self.__feature_vectors[sequence_nr].append(feature);
 		self.__labels.append("Golgi_signal3");
-	
+
 	def addGolgi4SortingSignal(self):
 		signals = SortingSignals();
 		for sequence_nr in range(self.__aa_sequences.size()):
@@ -1098,7 +1098,7 @@ class FeatureCreator(object):
 			feature = signals.getGolgiSignal4(sequence);
 			self.__feature_vectors[sequence_nr].append(feature);
 		self.__labels.append("Golgi_signal4");
-	
+
 	def addGolgi5SortingSignal(self):
 		signals = SortingSignals();
 		for sequence_nr in range(self.__aa_sequences.size()):
@@ -1106,15 +1106,15 @@ class FeatureCreator(object):
 			feature = signals.getGolgiSignal5(sequence);
 			self.__feature_vectors[sequence_nr].append(feature);
 		self.__labels.append("Golgi_signal5");
-	
+
 	def addGolgi6SortingSignal(self):
 		signals = SortingSignals();
 		for sequence_nr in range(self.__aa_sequences.size()):
 			sequence = self.__aa_sequences.get(sequence_nr)[1];
 			feature = signals.getGolgiSignal6(sequence);
 			self.__feature_vectors[sequence_nr].append(feature);
-		self.__labels.append("Golgi_signal6");	
-	
+		self.__labels.append("Golgi_signal6");
+
 	def addGolgi7SortingSignal(self):
 		signals = SortingSignals();
 		for sequence_nr in range(self.__aa_sequences.size()):
@@ -1122,7 +1122,7 @@ class FeatureCreator(object):
 			feature = signals.getGolgiSignal7(sequence);
 			self.__feature_vectors[sequence_nr].append(feature);
 		self.__labels.append("Golgi_signal7");
-	
+
 	def addGolgi9SortingSignal(self):
 		signals = SortingSignals();
 		for sequence_nr in range(self.__aa_sequences.size()):
@@ -1130,7 +1130,7 @@ class FeatureCreator(object):
 			feature = signals.getGolgiSignal9(sequence);
 			self.__feature_vectors[sequence_nr].append(feature);
 		self.__labels.append("Golgi_signal9");
-	
+
 	def addGolgi11SortingSignal(self):
 		signals = SortingSignals();
 		for sequence_nr in range(self.__aa_sequences.size()):
@@ -1138,7 +1138,7 @@ class FeatureCreator(object):
 			feature = signals.getGolgiSignal11(sequence);
 			self.__feature_vectors[sequence_nr].append(feature);
 		self.__labels.append("Golgi_signal11");
-	
+
 	def addGolgi12SortingSignal(self):
 		signals = SortingSignals();
 		for sequence_nr in range(self.__aa_sequences.size()):
@@ -1146,7 +1146,7 @@ class FeatureCreator(object):
 			feature = signals.getGolgiSignal12(sequence);
 			self.__feature_vectors[sequence_nr].append(feature);
 		self.__labels.append("Golgi_signal12");
-	
+
 	def addVacuole6SortingSignal(self):
 		signals = SortingSignals();
 		for sequence_nr in range(self.__aa_sequences.size()):
@@ -1154,7 +1154,7 @@ class FeatureCreator(object):
 			feature = signals.getVacuoleSignal6(sequence);
 			self.__feature_vectors[sequence_nr].append(feature);
 		self.__labels.append("Vacuole_signal6");
-		
+
 	def addVacuole7SortingSignal(self):
 		signals = SortingSignals();
 		for sequence_nr in range(self.__aa_sequences.size()):
@@ -1162,7 +1162,7 @@ class FeatureCreator(object):
 			feature = signals.getVacuoleSignal7(sequence);
 			self.__feature_vectors[sequence_nr].append(feature);
 		self.__labels.append("Vacuole_signal7");
-	
+
 	def addVacuole8SortingSignal(self):
 		signals = SortingSignals();
 		for sequence_nr in range(self.__aa_sequences.size()):
@@ -1170,7 +1170,7 @@ class FeatureCreator(object):
 			feature = signals.getVacuoleSignal8(sequence);
 			self.__feature_vectors[sequence_nr].append(feature);
 		self.__labels.append("Vacuole_signal8");
-		
+
 	def addVacuole9SortingSignal(self):
 		signals = SortingSignals();
 		for sequence_nr in range(self.__aa_sequences.size()):
@@ -1178,7 +1178,7 @@ class FeatureCreator(object):
 			feature = signals.getVacuoleSignal9(sequence);
 			self.__feature_vectors[sequence_nr].append(feature);
 		self.__labels.append("Vacuole_signal9");
-	
+
 	def addVacuole18SortingSignal(self):
 		signals = SortingSignals();
 		for sequence_nr in range(self.__aa_sequences.size()):
@@ -1186,7 +1186,7 @@ class FeatureCreator(object):
 			feature = signals.getVacuoleSignal18(sequence);
 			self.__feature_vectors[sequence_nr].append(feature);
 		self.__labels.append("Vacuole_signal18");
-	
+
 	def addVacuole21SortingSignal(self):
 		signals = SortingSignals();
 		for sequence_nr in range(self.__aa_sequences.size()):
@@ -1194,7 +1194,7 @@ class FeatureCreator(object):
 			feature = signals.getVacuoleSignal21(sequence);
 			self.__feature_vectors[sequence_nr].append(feature);
 		self.__labels.append("Vacuole_signal21");
-	
+
 	def addVacuole26SortingSignal(self):
 		signals = SortingSignals();
 		for sequence_nr in range(self.__aa_sequences.size()):
@@ -1202,7 +1202,7 @@ class FeatureCreator(object):
 			feature = signals.getVacuoleSignal26(sequence);
 			self.__feature_vectors[sequence_nr].append(feature);
 		self.__labels.append("Vacuole_signal26");
-	
+
 	def addVacuole27SortingSignal(self):
 		signals = SortingSignals();
 		for sequence_nr in range(self.__aa_sequences.size()):
@@ -1210,7 +1210,7 @@ class FeatureCreator(object):
 			feature = signals.getVacuoleSignal27(sequence);
 			self.__feature_vectors[sequence_nr].append(feature);
 		self.__labels.append("Vacuole_signal27");
-	
+
 	def addVacuole30SortingSignal(self):
 		signals = SortingSignals();
 		for sequence_nr in range(self.__aa_sequences.size()):
@@ -1218,7 +1218,7 @@ class FeatureCreator(object):
 			feature = signals.getVacuoleSignal30(sequence);
 			self.__feature_vectors[sequence_nr].append(feature);
 		self.__labels.append("Vacuole_signal30");
-	
+
 	def addVacuole31SortingSignal(self):
 		signals = SortingSignals();
 		for sequence_nr in range(self.__aa_sequences.size()):
@@ -1226,7 +1226,7 @@ class FeatureCreator(object):
 			feature = signals.getVacuoleSignal31(sequence);
 			self.__feature_vectors[sequence_nr].append(feature);
 		self.__labels.append("Vacuole_signal31");
-	
+
 	def addVacuole33SortingSignal(self):
 		signals = SortingSignals();
 		for sequence_nr in range(self.__aa_sequences.size()):
@@ -1234,7 +1234,7 @@ class FeatureCreator(object):
 			feature = signals.getVacuoleSignal33(sequence);
 			self.__feature_vectors[sequence_nr].append(feature);
 		self.__labels.append("Vacuole_signal33");
-	
+
 	def addVacuole34SortingSignal(self):
 		signals = SortingSignals();
 		for sequence_nr in range(self.__aa_sequences.size()):
@@ -1242,7 +1242,7 @@ class FeatureCreator(object):
 			feature = signals.getVacuoleSignal34(sequence);
 			self.__feature_vectors[sequence_nr].append(feature);
 		self.__labels.append("Vacuole_signal34");
-		
+
 	def addVacuole35SortingSignal(self):
 		signals = SortingSignals();
 		for sequence_nr in range(self.__aa_sequences.size()):
@@ -1250,7 +1250,7 @@ class FeatureCreator(object):
 			feature = signals.getVacuoleSignal35(sequence);
 			self.__feature_vectors[sequence_nr].append(feature);
 		self.__labels.append("Vacuole_signal35");
-		
+
 	def addVacuole36SortingSignal(self):
 		signals = SortingSignals();
 		for sequence_nr in range(self.__aa_sequences.size()):
@@ -1258,7 +1258,7 @@ class FeatureCreator(object):
 			feature = signals.getVacuoleSignal36(sequence);
 			self.__feature_vectors[sequence_nr].append(feature);
 		self.__labels.append("Vacuole_signal36");
-	
+
 	def addVacuole37SortingSignal(self):
 		signals = SortingSignals();
 		for sequence_nr in range(self.__aa_sequences.size()):
@@ -1266,7 +1266,7 @@ class FeatureCreator(object):
 			feature = signals.getVacuoleSignal37(sequence);
 			self.__feature_vectors[sequence_nr].append(feature);
 		self.__labels.append("Vacuole_signal37");
-	
+
 	def addLysosomal2SortingSignal(self):
 		signals = SortingSignals();
 		for sequence_nr in range(self.__aa_sequences.size()):
@@ -1274,7 +1274,7 @@ class FeatureCreator(object):
 			feature = signals.getLysosomalSignal2(sequence);
 			self.__feature_vectors[sequence_nr].append(feature);
 		self.__labels.append("Lysosomal_signal2");
-		
+
 	def addLysosomal4SortingSignal(self):
 		signals = SortingSignals();
 		for sequence_nr in range(self.__aa_sequences.size()):
@@ -1282,7 +1282,7 @@ class FeatureCreator(object):
 			feature = signals.getLysosomalSignal4(sequence);
 			self.__feature_vectors[sequence_nr].append(feature);
 		self.__labels.append("Lysosomal_signal4");
-	
+
 	def addLysosomal6SortingSignal(self):
 		signals = SortingSignals();
 		for sequence_nr in range(self.__aa_sequences.size()):
@@ -1290,7 +1290,7 @@ class FeatureCreator(object):
 			feature = signals.getLysosomalSignal6(sequence);
 			self.__feature_vectors[sequence_nr].append(feature);
 		self.__labels.append("Lysosomal_signal6");
-		
+
 	def addTransmembrane2SortingSignal(self):
 		signals = SortingSignals();
 		for sequence_nr in range(self.__aa_sequences.size()):
@@ -1298,7 +1298,7 @@ class FeatureCreator(object):
 			feature = signals.getTransMembraneSignal2(sequence);
 			self.__feature_vectors[sequence_nr].append(feature);
 		self.__labels.append("Transmembrane_signal2");
-	
+
 	def addTransmembrane3SortingSignal(self):
 		signals = SortingSignals();
 		for sequence_nr in range(self.__aa_sequences.size()):
@@ -1306,7 +1306,7 @@ class FeatureCreator(object):
 			feature = signals.getTransMembraneSignal3(sequence);
 			self.__feature_vectors[sequence_nr].append(feature);
 		self.__labels.append("Transmembrane_signal3");
-	
+
 	def addGlycositeSortingSignal(self):
 		signals = SortingSignals();
 		for sequence_nr in range(self.__aa_sequences.size()):
@@ -1314,7 +1314,7 @@ class FeatureCreator(object):
 			feature = signals.getGlycoSiteSignal(sequence);
 			self.__feature_vectors[sequence_nr].append(feature);
 		self.__labels.append("Glycosite_signal");
-	
+
 	def addNESSortingSignal(self):
 		signals = SortingSignals();
 		for sequence_nr in range(self.__aa_sequences.size()):
@@ -1322,7 +1322,7 @@ class FeatureCreator(object):
 			feature = signals.getNESSignal(sequence);
 			self.__feature_vectors[sequence_nr].append(feature);
 		self.__labels.append("NES_signal");
-	
+
 
 	def addMIP2SortingSignal(self):
 		signals = SortingSignals();
@@ -1331,7 +1331,7 @@ class FeatureCreator(object):
 			feature = signals.getMIPSignal2(sequence);
 			self.__feature_vectors[sequence_nr].append(feature);
 		self.__labels.append("Mip_signal2");
-	
+
 	def addMIP3SortingSignal(self):
 		signals = SortingSignals();
 		for sequence_nr in range(self.__aa_sequences.size()):
@@ -1339,7 +1339,7 @@ class FeatureCreator(object):
 			feature = signals.getMIPSignal3(sequence);
 			self.__feature_vectors[sequence_nr].append(feature);
 		self.__labels.append("Mip_signal3");
-	
+
 	def addMIP5SortingSignal(self):
 		signals = SortingSignals();
 		for sequence_nr in range(self.__aa_sequences.size()):
@@ -1355,15 +1355,15 @@ class FeatureCreator(object):
 			feature = signals.getMIPSignal9(sequence);
 			self.__feature_vectors[sequence_nr].append(feature);
 		self.__labels.append("Mip_signal9");
-		
+
 	def addMIP10SortingSignal(self):
 		signals = SortingSignals();
 		for sequence_nr in range(self.__aa_sequences.size()):
 			sequence = self.__aa_sequences.get(sequence_nr)[1];
 			feature = signals.getMIPSignal10(sequence);
 			self.__feature_vectors[sequence_nr].append(feature);
-		self.__labels.append("Mip_signal10");	
-		
+		self.__labels.append("Mip_signal10");
+
 	def addMIP12SortingSignal(self):
 		signals = SortingSignals();
 		for sequence_nr in range(self.__aa_sequences.size()):
@@ -1371,7 +1371,7 @@ class FeatureCreator(object):
 			feature = signals.getMIPSignal12(sequence);
 			self.__feature_vectors[sequence_nr].append(feature);
 		self.__labels.append("Mip_signal12");
-		
+
 	def addMIP13SortingSignal(self):
 		signals = SortingSignals();
 		for sequence_nr in range(self.__aa_sequences.size()):
@@ -1379,7 +1379,7 @@ class FeatureCreator(object):
 			feature = signals.getMIPSignal13(sequence);
 			self.__feature_vectors[sequence_nr].append(feature);
 		self.__labels.append("Mip_signal13");
-		
+
 	def addChloro2SortingSignal(self):
 		signals = SortingSignals();
 		for sequence_nr in range(self.__aa_sequences.size()):
@@ -1387,7 +1387,7 @@ class FeatureCreator(object):
 			feature = signals.getChlorSignal2(sequence);
 			self.__feature_vectors[sequence_nr].append(feature);
 		self.__labels.append("Chloro_signal2");
-		
+
 	def addAliphaticHelixNormedSortingSignal(self):
 		signals = SortingSignals();
 		for sequence_nr in range(self.__aa_sequences.size()):
@@ -1395,10 +1395,10 @@ class FeatureCreator(object):
 			feature = signals.getAliphaticHelixNormed(sequence);
 			self.__feature_vectors[sequence_nr].append(feature);
 		self.__labels.append("aliphatic_helix_normed");
-	
-	
+
+
 	#### Motifs
-	
+
 	def addMotifs(self):
 		motifs = MotifFilter();
 		for sequence_nr in range(self.__aa_sequences.size()):
@@ -1406,14 +1406,14 @@ class FeatureCreator(object):
 			features = motifs.getAllMotifs(sequence);
 			self.__feature_vectors[sequence_nr] += features;
 		self.__labels += motifs.getAllLabels();
-		
+
 	#### add Isoeletric Point
 	def addIsoelectricPoint(self):
-		emboss = {"C" : 8.5, "D" : 3.9, "E" : 4.1, "H" : 6.5, 
+		emboss = {"C" : 8.5, "D" : 3.9, "E" : 4.1, "H" : 6.5,
 				"K" : 10.8, "R" : 12.5, "Y" : 10.1};
 		for sequence_nr in range(self.__aa_sequences.size()):
 			sequence = self.__aa_sequences.get(sequence_nr)[1];
-		
+
 			nr_c = len(re.findall("C",sequence));
 			nr_d = len(re.findall("D",sequence));
 			nr_e = len(re.findall("E",sequence));
@@ -1421,10 +1421,10 @@ class FeatureCreator(object):
 			nr_k = len(re.findall("K",sequence));
 			nr_y = len(re.findall("Y",sequence));
 			nr_r = len(re.findall("R",sequence));
-			
+
 			ph = 0.0;
 			netto_charge = 1;
-			
+
 			while netto_charge > 0:
 				qn1 = -1/ (1+10**(3.65-ph));
 				qn2 = -nr_d / (1+10**(emboss["D"] - ph));
@@ -1435,31 +1435,31 @@ class FeatureCreator(object):
 				qp2 = nr_k / (1+10**(ph-emboss['K']));
 				qp3 = nr_h / (1+10**(ph-emboss['H']));
 				qp4 = nr_r / (1+10**(ph-emboss['R']));
-		
+
 				netto_charge = qn1+qn2+qn3+qn4+qn5+qp1+qp2+qp3+qp4;
-				
+
 				ph += 0.01
-			
+
 			self.__feature_vectors[sequence_nr].append(ph);
-			
+
 		self.__labels.append("isoelectric_point");
-	
-	
+
+
 	def addExtinctionCoefficient(self):
 		coeff = {"W" : 5690, "C" : 120, "Y" : 1280};
 		for sequence_nr in range(self.__aa_sequences.size()):
 			sequence = self.__aa_sequences.get(sequence_nr)[1];
-		
+
 			nr_c = len(re.findall("C",sequence));
 			nr_w = len(re.findall("W",sequence));
 			nr_y = len(re.findall("Y",sequence));
-			
+
 			value = nr_y * coeff['Y'] + nr_c * coeff['C']+nr_w*coeff['W'];
-			
+
 			self.__feature_vectors[sequence_nr].append(value);
-			
-		self.__labels.append("extinction_coefficient");	
-		
+
+		self.__labels.append("extinction_coefficient");
+
 	def addMass(self):
 		mass = {"A" : 71.0788, "C" : 103.1388, "D" : 115.0866, "E" : 129.1155, "F" : 147.1766,
 				"G" : 57.0519, "H" : 137.1411, "I" : 113.1594, "K" : 128.1741, "L" : 113.1594,
@@ -1472,32 +1472,32 @@ class FeatureCreator(object):
 				if aa in mass.keys():
 					score += mass[aa];
 			self.__feature_vectors[sequence_nr].append(score);
-			
-		self.__labels.append("peptide_mass");	
-		
+
+		self.__labels.append("peptide_mass");
+
 	def addSP(self):
 		charge = self.__get_properties("charge");
 		hydr = self.__get_properties("hydrophob");
 		for sequence_nr in range(self.__aa_sequences.size()):
 			sequence = self.__aa_sequences.get(sequence_nr)[1];
-			
+
 			c = self.__getProperties(sequence[1:4], charge);
 			h = self.__getProperties(sequence[5:15], hydr);
 			cleav = len(re.findall("[GAS].[GAS]",sequence[15:30]));
 			value = (c+h)*cleav;
 			self.__feature_vectors[sequence_nr].append(value);
-			
-		self.__labels.append("SP");	
-	
+
+		self.__labels.append("SP");
+
 	def addSP2(self):
 		for sequence_nr in range(self.__aa_sequences.size()):
 			sequence = self.__aa_sequences.get(sequence_nr)[1];
-			
+
 			value = len(re.findall("^M.{0,4}[KR].{0,10}LL.{0,10}[GAS].[GAS]",sequence));
 			self.__feature_vectors[sequence_nr].append(value);
-			
-		self.__labels.append("SP");	
-	
+
+		self.__labels.append("SP");
+
 	def addSolventaccesibility(self):
 		#http://curser.science.ru.nl/content-e/pub_NWI/Bioinformatics%20Summerschool%202006%20light%2003092006/documents/do_4623.htm
 		sea30 = {"S" : 0.7, "T" : 0.71, "A" : 0.48, "G" : 0.51, "P" : 0.78, "C" : 0.32,
@@ -1519,9 +1519,9 @@ class FeatureCreator(object):
 				if aa in sea30.keys():
 					value += sea30[aa]*30+sea20[aa]*20+sea10[aa]*10;
 			self.__feature_vectors[sequence_nr].append(value);
-			
+
 		self.__labels.append("Solvent_accesibility");
-	
+
 	def addSurfaceCharge(self):
 		#http://curser.science.ru.nl/content-e/pub_NWI/Bioinformatics%20Summerschool%202006%20light%2003092006/documents/do_4623.htm
 		sea30 = {"S" : 0.7, "T" : 0.71, "A" : 0.48, "G" : 0.51, "P" : 0.78, "C" : 0.32,
@@ -1544,9 +1544,9 @@ class FeatureCreator(object):
 				if aa in sea30.keys():
 					value += charge[aa]*sea30[aa]*30+sea20[aa]*20+sea10[aa]*10;
 			self.__feature_vectors[sequence_nr].append(value);
-			
+
 		self.__labels.append("Surface_charge");
-	
+
 	def countAverageRe(self,rex,start,stop):
 		count = 0.0;
 		min = 10000;
@@ -1564,7 +1564,7 @@ class FeatureCreator(object):
 		print "min"+str(min);
 		print "max"+str(max);
 		return count;
-	
+
 	def test(self,start,stop):
 		empty = {'A': 0, 'C':0,'D' :0, 'E' :0, 'F':0, 'G':0,'H':0,'I':0,'K':0,'L':0,
 			'M':0,'N':0,'P':0,'Q':0,'R':0,'S':0,'T':0,'V':0,'W':0,'Y':0};
@@ -1584,8 +1584,8 @@ class FeatureCreator(object):
 			sd = sqrt(sd / 20);
 			self.__feature_vectors[sequence_nr].append(sd);
 		self.__labels.append("test");
-	
-			
+
+
 	def test2(self,start,stop,w):
 		signals = SortingSignals();
 		#signals.statNLS();
@@ -1626,7 +1626,7 @@ class FeatureCreator(object):
 				for aa in sequence[window+w1:window+w1+w2]:
 					if aa in hist.keys():
 						value2 += hist[aa];
-						
+
 				value = value1 + value2*w1*8;
 				if value > max:
 					max = value
@@ -1651,7 +1651,7 @@ class FeatureCreator(object):
 			self.__feature_vectors[sequence_nr].append(max);
 		self.__labels.append("test4|"+str(w));
 
-	
+
 	def evalNormDistribution(self, mean, sd, value):
 		#print("m="+str(mean)+" var="+str(sd)+" value="+str(value));
 		#print sd;
@@ -1663,20 +1663,20 @@ class FeatureCreator(object):
 			res = 1;
 		#print(res);
 		return res;
-	
+
 	def classify(self):
 		response = uniqify(self.__response);
 		zero_vector = [];
 		for elem in response:
 			zero_vector.append(0.0);
 		prior = zero_vector;
-		
+
 		count_matrix = [];
 		for i in range(len(response)):
 			count_matrix.append([]);
 			for k in range(len(self.__feature_vectors[0])):
 				count_matrix[i].append([]);
-		
+
 		# list of lists
 		# each list for a attribute with values of each class
 		for i in range(len(self.__feature_vectors[0])):
@@ -1688,7 +1688,7 @@ class FeatureCreator(object):
 			prior[r] += 1.0;
 		for i in range(len(response)):
 			prior[i] = prior[i] / self.__aa_sequences.size();
-		
+
 		# calculate distributions
 		mean_matrix = []
 		sd_matrix = [];
@@ -1704,9 +1704,9 @@ class FeatureCreator(object):
 				for elem in count_matrix[i][k]:
 					sd_matrix[i][k] += (float(elem) - mean_matrix[i][k])**2;
 				sd_matrix[i][k]  = sqrt(sd_matrix[i][k]  / len(count_matrix[i][k]));
-		
+
 		#print(mean_matrix);
-		
+
 		# classify
 		error = 0;
 		#ig = [0.215, 0.186,0.423,0.127,0.582,0.585,0.399,0.655,0.181,0.405,0.644,0.426,0.401,0.157,0.228];
@@ -1722,16 +1722,16 @@ class FeatureCreator(object):
 				for k in range(len(self.__feature_vectors[sequence_nr])):
 					prob *= self.evalNormDistribution(mean_matrix[i][k],sd_matrix[i][k],float(self.__feature_vectors[sequence_nr][k]))  ;
 					#print("p="+str(prob));
-						
+
 				#print "final"
 				#print(prob);
 				#print("class "+str(i)+" with prob=" +str(prob));
 				probs.append(prob);
 				sum += prob;
-			
+
 			#print(probs);
 			#print(sum);
-			
+
 			for k in range(len(response)):
 				if sum != 0:
 					probs[k] = probs[k] / sum;
@@ -1745,9 +1745,9 @@ class FeatureCreator(object):
 			if response[max_class] != self.__response[sequence_nr]:
 				error +=1;
 		print(1.0 - float(error) / self.__aa_sequences.size());
-		
-			
-	
+
+
+
 	def delme(self):
 		count = 0;
 		comp = [ "SP", "OT",  "CTP", "OT", "MTP"];
@@ -1765,11 +1765,11 @@ class FeatureCreator(object):
 			prob.append(1-float(self.__feature_vectors[sequence_nr][4]));
 			prob.append(1-float(self.__feature_vectors[sequence_nr][5]));
 			print(prob);
-						
+
 			prob[4] *= 1-float(self.__feature_vectors[sequence_nr][0]);
 			prob[2] *= float(self.__feature_vectors[sequence_nr][0]);
-			
-			
+
+
 			print(str(sequence_nr)+" from "+self.__response[sequence_nr]+ " with probs: ");
 			print(prob);
 			#for i in range(len(prob)):
@@ -1777,7 +1777,7 @@ class FeatureCreator(object):
 			max_i = 0;
 			max = 0;
 			second = 0;
-			
+
 			for i in range(len(prob)):
 				if prob[i] > max:
 					second = max;
@@ -1792,11 +1792,11 @@ class FeatureCreator(object):
 		print(float(count) / float(self.__aa_sequences.size()) );
 		print unsure;
 		print(float(count) / float(self.__aa_sequences.size() - unsure) );
-		
-				
-	
+
+
+
 	#### Sub Predictor
-	
+
 	def addSubPredictor(self, model_name):
 		predictor = Predictor(self.__aa_sequences);
 		#print("use sub predictor");
@@ -1817,13 +1817,13 @@ class FeatureCreator(object):
 		else:
 			self.__labels.append("Subpredictor:"+model_name+"_Prob_"+result[0][0][0].strip(" "));
 
-		
+
 #####################################
 ##### read from file functions ######
 #####################################
 
         def readARFFFeatureFile(self, file_name):
-		ff_file = open(file_name,"r");			
+		ff_file = open(file_name,"r");
 		line = ff_file.readline();
 		data=False
 		while line:
@@ -1859,13 +1859,13 @@ class FeatureCreator(object):
 #####################################
 
 	def writeARFFFeatureFile(self, file_name,shuffle=False):
-	
-		ff_file = open(file_name,"w");	
-			
+
+		ff_file = open(file_name,"w");
+
 		ff_file.write("@RELATION "+str(file_name)+ "\n");
 		for label_nr in range(0,len(self.__labels)):
 			ff_file.write("@ATTRIBUTE " + str(self.__labels[label_nr]) + " numeric \n");
-	
+
 		if self.__response_classes == None:
 			if self.__response != None:
 				#get all class labels
@@ -1880,12 +1880,12 @@ class FeatureCreator(object):
 			for nr in range(0,len(classes)-1):
 				ff_file.write(str(classes[nr])+",");
 			ff_file.write(str(classes[-1])+"} \n \n");
-			
+
 		ff_file.write("@DATA \n");
-		
+
 		if (shuffle):
 			random.shuffle(self.__feature_vectors);
-		
+
 		for sequence_nr in range(self.__aa_sequences.size()):
 			for feature in self.__feature_vectors[sequence_nr]:
 				ff_file.write(str(feature) + ",");
@@ -1896,8 +1896,8 @@ class FeatureCreator(object):
 
 
 	def writeScaleFeatureFile(self, file_name):
-		ff_file = open(file_name,"w");					
-		
+		ff_file = open(file_name,"w");
+
 		for sequence_nr in range(self.__aa_sequences.size()):
 			ff_file.write(str(self.__response[sequence_nr]) + " ");
 			for feature_nr in range(0,len(self.__feature_vectors[sequence_nr])):
@@ -1906,11 +1906,11 @@ class FeatureCreator(object):
 				ff_file.write(str(feature_nr)+":"+str(feature) + " ");
 			ff_file.write("\n");
 		ff_file.close();
-		
+
 
 	def writePlainFeatureFile(self, file_name, shuffle=False, labels=True):
 		ff_file = open(file_name,"w");
-		
+
 		if (labels):
 			#write label string
 			label_string = "";
@@ -1918,7 +1918,7 @@ class FeatureCreator(object):
 				label_string += label + "\t";
 			label_string += "\n";
 			ff_file.write(label_string);
-			
+
 		if (shuffle):
 			random.shuffle(self.__feature_vectors);
 
@@ -1935,5 +1935,3 @@ class FeatureCreator(object):
 			out_string += "\n";
 			ff_file.write(out_string);
 		ff_file.close();
-
-

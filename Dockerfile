@@ -7,32 +7,46 @@ FROM ubuntu:18.04
 
 # Update package repository
 RUN apt-get update
-RUN apt-get -y upgrade
 
 
 # ----------------------------------------------------------
 # Install Useful stuff
 # ----------------------------------------------------------
-RUN apt-get install -y -q dirmngr software-properties-common \
-                          perl python python3 vim wget
+RUN apt-get install -y -q dirmngr software-properties-common vim wget
 
 
 # ----------------------------------------------------------
-# Install and BLAST
+# Install YLoc and dependencies
 # ----------------------------------------------------------
-RUN apt-get install -y ncbi-blast+
+RUN  apt-get install -y ncbi-blast+ pftools default-jre
+COPY YLoc/ YLoc/
+RUN  chown -R www-data:www-data /YLoc
+RUN  chmod -R 775 /YLoc
 
-
-# ----------------------------------------------------------
-# Install YLoc
-# ----------------------------------------------------------
-RUN apt-get install -y default-jre
-
-ADD YLoc /YLoc
-WORKDIR /YLoc
 
 # ----------------------------------------------------------
 # Test YLoc
 # ----------------------------------------------------------
+RUN python /YLoc/yloc.py /YLoc/test.fasta "YLoc-LowRes* Animals"
 
-RUN python yloc.py test.fasta "YLoc-LowRes* Animals"
+
+# ----------------------------------------------------------
+# Setup YLoc Webservice
+# ----------------------------------------------------------
+RUN apt-get -y install mysql-server python-mysql.connector apache2
+RUN a2enmod cgid
+ADD webservice/apache2.conf         /etc/apache2/apache2.conf
+ADD webservice/serve-cgi-bin.conf   /etc/apache2/conf-available/serve-cgi-bin.conf
+
+COPY webservice/webloc.cgi  /var/www/html/cgi-bin/
+COPY webservice/downloads/  /var/www/html/cgi-bin/downloads/
+COPY webservice/images/     /var/www/html/cgi-bin/images/
+
+RUN mkdir /webservice
+ADD webservice/yloc_entrypoint.sh  /webservice/yloc_entrypoint.sh
+ADD webservice/ylocdb.sql          /webservice/ylocdb.sql
+
+
+EXPOSE 80
+
+CMD ["sh", "/webservice/yloc_entrypoint.sh"]

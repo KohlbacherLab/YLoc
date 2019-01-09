@@ -6,7 +6,6 @@ import copy;
 
 class GoFilter(object):
 	PATH = config.PATH_GO;
-	PATH_BLAST = config.PATH_BLAST;
 	PATH_TMP = config.PATH_TMP;
 	CLUSTER_FILE = "multi_goterms_homolog42_3_clustering_0.95.txt";
 
@@ -18,7 +17,9 @@ class GoFilter(object):
 	def __getGoTerms(self,gomap,sequences):
 		sequences.write_fasta_file(self.PATH_TMP+"tmp_go_"+self.process_id+".fasta");
 		#os.system("%sblastall -p blastp -d %sswissprot/swissprot -i %stmp_go_%s.fasta >& %s" % (self.PATH_BLAST,self.PATH, self.PATH_TMP, self.process_id,self.PATH_TMP+"blastout_"+self.process_id));
+
 		os.system("blastp -db %sswissprot/swissprot -query %stmp_go_%s.fasta > %s" % (self.PATH, self.PATH_TMP, self.process_id, self.PATH_TMP+"blastout_"+self.process_id));
+
 		# create lis of go terms
 		go_list = [];
 		most_similar = [];
