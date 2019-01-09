@@ -37,16 +37,19 @@ The easiest option is to build the Docker image from this repository using the f
 
 **YLoc Usage (Interactively in container)**  
 
-YLoc general usage:  
+YLoc general usage:
+` $ cd YLoc`  
 ` $ python yloc.py <fasta_file> <model_name> <prediction_id(optional)> <print_result(y/n)(optional)>`  
 
 You can print the usage description and available models by executing  
 ` $ python yloc.py`  
 
-**Running YLoc Using Docker run**  
+**Start YLoc webservice**  
 
-You can either start your container interactively and run YLoc  
-` $ docker run --rm -it <your_image_name> /bin/bash`  
-`root@<some_hash>:/YLoc# python yloc.py test.fasta "some_model"`  
+Start the container as a daemon:   
+` $ docker run --rm -it -p 8080:80 -d --name yloc_ws <your_image_name>`  
+
+Access the YLoc webservice on the docker host via the following URL:  
+http://localhost:8080/cgi-bin/webloc.cgi
 
 
