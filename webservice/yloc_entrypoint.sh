@@ -1,3 +1,5 @@
+python /webservice/ylsetup.py
+
 chown -R mysql:mysql /var/lib/mysql
 /etc/init.d/mysql start
 

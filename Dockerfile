@@ -43,6 +43,7 @@ COPY webservice/downloads/  /var/www/html/cgi-bin/downloads/
 COPY webservice/images/     /var/www/html/cgi-bin/images/
 
 RUN mkdir /webservice
+ADD webservice/ylsetup.py          /webservice/ylsetup.py
 ADD webservice/yloc_entrypoint.sh  /webservice/yloc_entrypoint.sh
 ADD webservice/ylocdb.sql          /webservice/ylocdb.sql
 

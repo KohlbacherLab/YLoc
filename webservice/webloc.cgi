@@ -5,26 +5,21 @@ from subprocess import PIPE, Popen
 
 sys.stderr = sys.stdout
 
-# 2018_12_20_MOD sys.path.append('/share/projects/LOC_PRED/WebServices/YLoc');
-sys.path.append('/YLoc');
-
-# 2018_12_20_MOD os.environ['PYTHON_EGG_CACHE'] = '/webroot/html/cgi-bin/briese/multiloc/'
-os.environ['PYTHON_EGG_CACHE'] = '/var/www/html/cgi-bin/';
-
-# Tag YLoc Webservice Instance
-os.environ['YLOC_WS'] = '1';
-
-python_path = "/usr/bin/python";
-
-# 2018_12_20_MOD img_path = "http://www-bs2.informatik.uni-tuebingen.de/services/briese/";
-img_path = "images/";
-download_path = "downloads/";
-
-contact_email = "abi-yloc@informatik.uni-tuebingen.de";
-
 try:
+  sys.path.append('/YLoc');
+
+  os.environ['PYTHON_EGG_CACHE'] = '/var/www/html/cgi-bin/';
+
+  os.environ['YLOC_WS'] = '1';
+
+  python_path = "/usr/bin/python";
+
+  img_path = "images/";
+  download_path = "downloads/";
+
+  from ylconfig import *
+
   import cgitb;
-  #from yloc import *;
   from dbsupport import *;
   from aasequences import *;
   from prediction import *;
@@ -162,11 +157,11 @@ def __print_head():
   print "<center>";
   print "<TABLE bgcolor=#FFFFFF  border=0 width = 95% height=95%>";
   print "<TR height=80pt><TD width=150 style='padding-left:20pt'><img src='"+str(img_path)+"yloc_1.png'></TD>";
-  print "<TD width=100%  style='vertical-align:bottom; padding:0px; padding-left:20pt;'><h2>Interpretable Subcellular Localization Prediction</h2></TD></TR>";
+  print "<TD width=100%  style='vertical-align:middle; padding:0px; padding-left:20pt;'><h2>Interpretable Subcellular Localization Prediction</h2></TD></TR>";
   print "<TR><TH colspan=2 width=100% height=40pt>";
   print "<div id='navi'>"
 
-  class_list = ["","","","","",""];
+  class_list = ["","",""];
 
   if not form.has_key("page"):
     class_list[0] = "class='current'";
@@ -174,24 +169,12 @@ def __print_head():
     class_list[1] = "class='current'";
   elif form["page"].value=="info":
     class_list[2] = "class='current'";
-  elif form["page"].value=="about":
-    class_list[3] = "class='current'";
-  #elif form["page"].value=="soap":
-  #  class_list[3] = "class='current'";
-  elif form["page"].value=="imprint":
-    class_list[4] = "class='current'";
-  elif form["page"].value=="gdpr":
-    class_list[5] = "class='current'";
   else:
     class_list[0] = "class='current'";
 
   print "<a "+class_list[0]+" href='webloc.cgi'>Predict with YLoc</a>";
   print "<a "+class_list[1]+" href='webloc.cgi?page=help'>Tutorial</a>";
   print "<a "+class_list[2]+" href='webloc.cgi?page=info'>Information</a>";
-  #print "<a "+class_list[3]+" href='webloc.cgi?page=soap'>YLoc via SOAP</a>";
-  print "<a "+class_list[3]+" href='webloc.cgi?page=about'>References</a>";
-  print "<a "+class_list[4]+" href='webloc.cgi?page=imprint'>Impressum</a>";
-  print "<a "+class_list[5]+" href='webloc.cgi?page=gdpr'>Datenschutzerklaerung</a>";
   print "</div></TH></TR>"
   print "<TR><TH colspan=2 height=80% style='padding-left:30pt;'>";
 
@@ -199,11 +182,9 @@ def __print_foot():
   print "</TH></TR>";
   print "<TR><TH colspan=2 bgcolor=#FFFFFF>"
   print "<hr>";
-  print "If you use YLoc please cite:<BR>";
-  print "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sebastian Briesemeister, J&ouml;rg Rahnenf&uuml;hrer, and Oliver Kohlbacher, (2010). Going from where to why - interpretable prediction of protein subcellular localization, Bioinformatics, 26(9):1232-1238.<BR>";
-  print "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sebastian Briesemeister, J&ouml;rg Rahnenf&uuml;hrer, and Oliver Kohlbacher, (2010). YLoc - an interpretable web server for predicting subcellular localization, Nucleic Acids Research, 38:W497-W502.<BR>";
-  print "<BR><p style='font-size:8pt;'>";
-  print "Contact: mail to <a style='font-size:8pt;' href=mailto:"+contact_email+">YLoc Admin</a></p>";
+  print "<p>&nbsp;&nbsp;&nbsp;&nbsp;<a style='font-size:8pt;color:blue' href=mailto:" + contact_email + "?subject=YLoc%20Webservice>Mail to YLoc Admin</a></p>";
+  print "<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href=" + imprint_url + " style='font-size:8pt;color:blue' target='_blank'>Imprint (Impressum)</a></p>";
+  print "<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href=" + gdpr_url + " style='font-size:8pt;color:blue' target='_blank'>GDPR Declaration (Datenschutzerklaerung)</a></p>";
   print "</TH></TR>"
   print "</TABLE>";
   print "</BODY></HTML>";
@@ -211,6 +192,9 @@ def __print_foot():
 def __print_start_screen(error_msg = ""):
   __print_header();
   __print_head();
+
+  print "<p>YLoc is a interpretable prediction system for protein subcellular localization prediction. In addition to the predicted location, YLoc gives a reasoning why this prediction was made and which biological properties of the protein sequence lead to this prediction. Moreover, a confidence estimate helps users to rate predictions as trustworthy. YLoc+ is able to predict the location of multiple-targeted proteins with high accuracy.</p>";
+  print "<BR><BR>";
 
   m = Models();
   model_combinations = m.getAvailableModelCombinations();
@@ -1284,13 +1268,17 @@ def __print_admin_page():
 
 def __blastp_version_info():
   try:
-    blastp_v = os.popen('blastp -version').read().split("\n")
+    p = Popen("blastp -version", shell=True, stdout=PIPE, stderr=PIPE);
+    blastp_v, stderr  = p.communicate();
 
-    print "<p>&nbsp;&nbsp;&nbsp;&nbsp;" + blastp_v[0].strip() + "</p>";
-    print "<p>&nbsp;&nbsp;&nbsp;&nbsp;" + blastp_v[1].strip() + "</p>";
+    print "<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + blastp_v.split("\n")[0].strip() + "</p>";
+    print "<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + blastp_v.split("\n")[1].strip() + "</p>";
   except:
-    print "\n\n<PRE>"
-    traceback.print_exc()
+    if os.getenv("YLOC_DEBUG"):
+      print "\n\n<PRE>"
+      traceback.print_exc()
+    else:
+      print "<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cannot detect BLASTp version</p>";
 
 
 def __pfscan_version_info():
@@ -1298,154 +1286,67 @@ def __pfscan_version_info():
     p = Popen("pfscan", shell=True, stdout=PIPE, stderr=PIPE)
     stdout, pfscan_v = p.communicate()
 
-    print "<p>&nbsp;&nbsp;&nbsp;&nbsp;" + pfscan_v.split("\n")[1].strip() + "</p>";
+    print "<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + pfscan_v.split("\n")[1].strip() + "</p>";
   except:
-    print "\n\n<PRE>"
-    traceback.print_exc()
+    if os.getenv("YLOC_DEBUG"):
+      print "\n\n<PRE>"
+      traceback.print_exc()
+    else:
+      print "<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cannot detect pfscan version</p>";
 
 
 def __print_info_page():
   __print_header();
   __print_head();
 
-  print "<h2>Information on YLoc</h2>";
-  print "<p>YLoc is a interpretable prediction system for protein subcellular localization prediction. In addition to the predicted location, YLoc gives a reasoning why this prediction was made and which biological properties of the protein sequence lead to this prediction. Moreover, a confidence estimate helps users to rate predictions as trustworthy. YLoc+ is able to predict the location of multiple-targeted proteins with high accuracy.</p>";
-  print "<p>For more information see: <BR><BR>";
-  print "Sebastian Briesemeister, J&ouml;rg Rahnenf&uuml;hrer, and Oliver Kohlbacher, (2010). Going from where to why - interpretable prediction of protein subcellular localization, Bioinformatics, 26(9):1232-1238.<BR><BR>";
-  print "Sebastian Briesemeister, J&ouml;rg Rahnenf&uuml;hrer, and Oliver Kohlbacher, (2010). YLoc - an interpretable web server for predicting subcellular localization, Nucleic Acids Research, 38:W497-W502.</p><BR><BR><BR>";
-  print "<h3>Versions of Used Software Tools</h3>";
-  print "<p>BLASTp:</p>";
+  print "<h2>Terms of Service</h2>";
+  print "<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href=" + imprint_url + " style='color:blue' target='_blank'>Imprint (Impressum)</a></p>";
+  print "<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href=" + gdpr_url + " style='color:blue' target='_blank'>GDPR Declaration (Datenschutzerklaerung)</a></p>";
+  print "<BR><BR>";
+
+  print "<h2>Contact</h2>";
+  print "<p>&nbsp;&nbsp;&nbsp;&nbsp;Please write an eMail to  <a style='color:blue' href=mailto:" + contact_email + "?subject=YLoc%20Webservice>YLoc Admin</a></p>";
+  print "<BR><BR>";
+
+  print "<h2>How to Cite</h2>";
+  print "<p>&nbsp;&nbsp;&nbsp;&nbsp;Sebastian Briesemeister, J&ouml;rg Rahnenf&uuml;hrer, and Oliver Kohlbacher, (2010): Going from where to why - interpretable prediction of protein subcellular localization.</p>";
+  print "<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href='https://dx.doi.org/10.1093/bioinformatics/btq115' style='color:blue' target='_blank'>Bioinformatics, 26(9):1232-1238.</a></p>";
+  print "<p>&nbsp;&nbsp;&nbsp;&nbsp;Sebastian Briesemeister, J&ouml;rg Rahnenf&uuml;hrer, and Oliver Kohlbacher, (2010): YLoc - an interpretable web server for predicting subcellular localization.</p>";
+  print "<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href='https://dx.doi.org/10.1093%2Fnar%2Fgkq477' style='color:blue' target='_blank'>Nucleic Acids Research, 38:W497-W502.</a></p>";
+  print "<BR><BR>";
+
+  print "<h2>License</h2>";
+  print "<p>&nbsp;&nbsp;&nbsp;&nbsp;MultiLoc2 is distributed under the GNU General Public License (GPL).</p>";
+  print "<p>&nbsp;&nbsp;&nbsp;&nbsp;MultiLoc2 is using LIBSVM, BLAST, and InterProScan. These software tools have their own license terms.</p>";
+  print "<BR><BR>";
+
+  print "<h2>Third Party Software Tools</h2>";
+  print "<p>&nbsp;&nbsp;&nbsp;&nbsp;YLoc is implemented in Python 2.7 and uses BLAST and pfscan.</p>";
+  print "<p>&nbsp;&nbsp;&nbsp;&nbsp;BLASTp:</p>";
   __blastp_version_info();
-  print "<p>pfscan:  </p>";
+  print "<p>&nbsp;&nbsp;&nbsp;&nbsp;pfscan:  </p>";
   __pfscan_version_info();
+  print "<BR><BR>";
+
+  print "<h2>Run YLoc Locally</h2>";
+  print "<p>&nbsp;&nbsp;&nbsp;&nbsp;YLoc is available as a repository to build a docker image, which also includes this websever: <a href='https://github.com/KohlbacherLab/YLoc' style='color:blue' target='_blank'>YLoc at KohlbacherLab GitHub</a></p>";
+  print "<BR>";
+  print "<p>&nbsp;&nbsp;&nbsp;&nbsp;Please note:</p>";
+  print "<p>&nbsp;&nbsp;&nbsp;&nbsp;Using other versions of third party software tools, especially of BLAST and pfscan, in your local installation may result in slightly different prediction scores compared to those calculated by the online service.</p>";
+  print "<BR><BR>";
+
+  print "<h3>Downloads</h3>";
+  print "<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href='http://gpcr.biocomp.unibo.it/bacello/dataset.htm' style='color:blue' target='_blank'>BaCelLo datasets</a><BR><BR>";
+  print "&nbsp;&nbsp;&nbsp;&nbsp;<a href='" + download_path + "multiloc2_datasets.tar.bz2' style='color:blue' download>H&ouml;glund Datasets (Multiloc / Multiloc2) (BZ2-archive, 1,7 MB)</a><BR><BR>";
+  print "&nbsp;&nbsp;&nbsp;&nbsp;<a href='" + download_path + "DBMLocDataset.zip' style='color:blue' download>DBMLoc dataset (ZIP-archive, 883 KB)</a><BR><BR>";
+  print "&nbsp;&nbsp;&nbsp;&nbsp;<a href='" + download_path + "YLocFeatureFiles.zip' style='color:blue' download>YLoc feature files (Arff format in ZIP-archive, 6.78 MB)</a><BR><BR>";
+  print "&nbsp;&nbsp;&nbsp;&nbsp;<a href='" + download_path + "swissprot2go.zip' style='color:blue' download>SwissProt to GO-term map (ZIP-archive, 4.82 MB)</a><BR><BR>";
+  print "&nbsp;&nbsp;&nbsp;&nbsp;<a href='ftp://ftp.expasy.org/databases/swiss-prot/sw_old_releases/' style='color:blue' target='_blank'>Link to SwissProt release 42.0</a><BR><BR>";
+  print "&nbsp;&nbsp;&nbsp;&nbsp;<a href='ftp://ftp.expasy.org/databases/prosite/old_releases/' style='color:blue' target='_blank'>Link to PROSITE release 20.33</a></p>";
   print "<BR><BR><BR>";
-  print "<h3>Downloads</h3>";
-  print "<p class=underl>&nbsp;&nbsp;&nbsp;&nbsp;<a href='http://gpcr.biocomp.unibo.it/bacello/dataset.htm'>Link to BaCelLo (independent) datasets</a><BR><BR>";
-  print "&nbsp;&nbsp;&nbsp;&nbsp;<a href='http://www-abi.informatik.uni-tuebingen.de/Services/MultiLoc/multiloc_dataset'>Link to H&ouml;glund dataset</a><BR><BR>";
-  print "&nbsp;&nbsp;&nbsp;&nbsp;<a href='http://www-abi.informatik.uni-tuebingen.de/Services/MultiLoc2/multiloc2_information'>Link to H&ouml;glund independent dataset</a><BR><BR>";
-  print "&nbsp;&nbsp;&nbsp;&nbsp;<a href='"+download_path+"DBMLocDataset.zip'>DBMLoc dataset (ZIP-archive, 883 KB)</a><BR><BR>";
-  print "&nbsp;&nbsp;&nbsp;&nbsp;<a href='"+download_path+"YLocFeatureFiles.zip'>YLoc feature files (Arff format in ZIP-archive, 6.78 MB)</a><BR><BR>";
-  print "&nbsp;&nbsp;&nbsp;&nbsp;<a href='ftp://ftp.expasy.org/databases/swiss-prot/sw_old_releases/'>Link to SwissProt release 42.0</a><BR><BR>";
-  print "&nbsp;&nbsp;&nbsp;&nbsp;<a href='ftp://ftp.expasy.org/databases/prosite/old_releases/'>Link to PROSITE release 20.33</a><BR><BR>";
-  print "&nbsp;&nbsp;&nbsp;&nbsp;<a href='"+download_path+"swissprot2go.zip'>SwissProt to GO-term map (ZIP-archive, 4.82 MB)</a></p>";
-  #print "<p class=underl>&nbsp;&nbsp;&nbsp;&nbsp;For SOAP related related downloads <a class=underl href='http://www-abi.informatik.uni-tuebingen.de/Services/YLoc/webloc.cgi?page=soap'>see here </a></p>";
 
   __print_foot();
 
-def __print_imprint_page():
-  __print_header();
-  __print_head();
-
-  print "<h2>Impressum / Imprint</h2>";
-  print '''<h3>Allgemeine Informationen gem. &sect; 5 TMG, &sect; 55 RStVG</h3>
-  <table>
-  <tbody>
-  <tr>
-  <td>Adresse</td>
-  <td>
-  <p>Eberhard Karls Universit&auml;t T&uuml;bingen</p>
-  <p>Geschwister-Scholl-Platz</p>
-  <p>72074 T&uuml;bingen</p>
-  </td>
-  </tr>
-  <tr>
-  <td><br /></td>
-  <td>Die Universit&auml;t T&uuml;bingen ist eine K&ouml;rperschaft des &ouml;ffentlichen Rechts. Sie wird durch den Rektor Prof. Dr. Bernd Engler (eMail: bernd. engler [at] uni-tuebingen.de) gesetzlich vertreten</td>
-  </tr>
-  <tr>
-  <td>Telefonzentrale</td>
-  <td>+49 (0) 70 71/29-0</td>
-  </tr>
-  <tr>
-  <td>Fax Zentrale Verwaltung</td>
-  <td>+49 (0) 70 71/29-59 90</td>
-  </tr>
-  <tr>
-  <td>Internet-Adresse</td>
-  <td><a href="https://www.uni-tuebingen.de/">https://www.uni-tuebingen.de</a></td>
-  </tr>
-  <tr>
-  <td>Umsatzsteuer-Identifikationsnummer</td>
-  <td>
-  <p>gem&auml;&szlig; &sect; 27a Umsatzsteuergesetz:&nbsp;<strong>DE812383453</strong></p>
-  </td>
-  </tr>
-  <tr>
-  <td>Aufsichtsbeh&ouml;rde</td>
-  <td>Ministerium f&uuml;r Wissenschaft, Forschung und Kunst Baden-W&uuml;rttemberg</td>
-  </tr>
-  </tbody>
-  </table>
-
-  <h3>1. Externe Links</h3>
-  <p>Diese Webseite der Universit&auml;t T&uuml;bingen enth&auml;lt auch entsprechend gekennzeichnete Links oder Verweise auf Websites Dritter. Durch den Link vermittelt die Universit&auml;t T&uuml;bingen lediglich den Zugang zur Nutzung dieser Inhalte. Eine Zustimmung zu den Inhalten den verlinkten Seiten Dritter ist damit nicht verbunden. Die Universit&auml;t T&uuml;bingen &uuml;bernimmt daher keine Verantwortung f&uuml;r die Verf&uuml;gbarkeit oder den Inhalt solcher Websites und keine Haftung f&uuml;r Sch&auml;den oder Verletzungen, die aus der Nutzung, gleich welcher Art, solcher Inhalte entstehen. Hierf&uuml;r haftet allein der Anbieter der jeweiligen Seite.&nbsp;&nbsp;</p>
-
-  <p>Bei der erstmaligen Verkn&uuml;pfung mit einem anderen
-  Internetangebot hat die Redaktion dessen Inhalt daraufhin &uuml;berpr&uuml;ft, ob
-  durch ihn eine m&ouml;gliche zivilrechtliche oder strafrechtliche
-  Verantwortlichkeit ausgel&ouml;st wird. Dort nachtr&auml;glich eingebundene
-  Inhalte k&ouml;nnen jedoch leider nicht &uuml;berpr&uuml;ft werden. Der Verweis auf
-  dieses Angebot wird unverz&uuml;glich aufgehoben werden, sobald die Redaktion feststellt oder von anderen darauf hingewiesen wird, dass ein
-  bestimmtes Angebot, zu dem ein Link bereitgestellt wurde, eine zivil-
-  oder strafrechtliche Verantwortlichkeit ausl&ouml;st.</p>
-
-  <h3>2.&nbsp;Urheberrecht</h3>
-  <p>Copyright (c), Universitaet T&uuml;bingen. Alle Rechte vorbehalten.</p>
-  <p>Alle auf dieser Website ver&ouml;ffentlichten Inhalte (Layout, Texte, Bilder, Grafiken, Video- und Tondateien usw.) unterliegen dem Urheberrecht. Jede vom Urheberrechtsgesetz nicht zugelassene Verwertung bedarf vorheriger ausdr&uuml;cklicher Zustimmung der Universit&auml;t T&uuml;bingen. Dies gilt insbesondere f&uuml;r Vervielf&auml;ltigung, Bearbeitung, &uuml;bersetzung, Einspeicherung, Verarbeitung bzw. Wiedergabe von Inhalten in Datenbanken oder anderen elektronischen Medien und Systemen. Fotokopien und Downloads von Web-Seiten f&uuml;r den privaten, wissenschaftlichen und nicht kommerziellen Gebrauch d&uuml;rfen hergestellt werden.</p>
-  <p>Das Urheberrecht f&uuml;r die Wort-Bild-Marke liegt ausdr&uuml;cklich bei der Universit&auml;t T&uuml;bingen.</p>
-  <p>Wir erlauben ausdr&uuml;cklich und begr&uuml;&szlig;en das Zitieren unserer Dokumente und Webseiten sowie das Setzen von Links auf unsere Website.</p>
-
-  <h3>3.&nbsp;Haftungsausschluss</h3>
-  <p>Die Informationen auf dieser Website wurden nach bestem Wissen und Gewissen sorgf&auml;ltig zusammengestellt und gepr&uuml;ft. Es wird jedoch keine Gew&auml;hr, weder ausdr&uuml;cklich noch stillschweigend, f&uuml;r die Vollst&auml;ndigkeit, Richtigkeit oder Aktualit&auml;t sowie die jederzeitige Verf&uuml;gbarkeit der bereit gestellten Informationen &uuml;bernommen. Eine Haftung f&uuml;r Sch&auml;den, die aus der Nutzung oder Nichtnutzung der auf dieser Website angebotenen Informationen entstehen ist, soweit gesetzlich zul&auml;ssig, ausgeschlossen.</p>
-
-  <h3>Ansprechpartner</h3>
-  <p>Prof. Dr. Oliver Kohlbacher<br />Sand 14<br />72076 T&uuml;bingen<br />Telefon: +49-7071-29-70458<br />Fax: +49-7071-29-5152<br />eMail: oliver. kohlbacher [at] uni-tuebingen.de</p>
-  ''';
-
-  __print_foot();
-
-def __print_gdpr_page():
-  __print_header();
-  __print_head();
-
-  print "<h2>Datenschutzerklaerung / GDPR Disclaimer</h2>";
-  print "<p>YLoc is a interpretable prediction system for protein subcellular localization prediction. In addition to the predicted location, YLoc gives a reasoning why this prediction was made and which biological properties of the protein sequence lead to this prediction. Moreover, a confidence estimate helps users to rate predictions as trustworthy. YLoc+ is able to predict the location of multiple-targeted proteins with high accuracy.</p>";
-  print "<p>For more information see: <BR><BR>";
-  print "Sebastian Briesemeister, J&ouml;rg Rahnenf&uuml;hrer, and Oliver Kohlbacher, (2010). Going from where to why - interpretable prediction of protein subcellular localization, Bioinformatics, 26(9):1232-1238.<BR><BR>";
-  print "Sebastian Briesemeister, J&ouml;rg Rahnenf&uuml;hrer, and Oliver Kohlbacher, (2010). YLoc - an interpretable web server for predicting subcellular localization, Nucleic Acids Research, 38:W497-W502.</p><BR><BR><BR>";
-  print "<h3>Downloads</h3>";
-
-  __print_foot();
-
-def __print_soap_page():
-  __print_header();
-  __print_head();
-
-  print "<h2>Access YLoc via SOAP</h2>";
-  print "<p class=underl>The YLoc webserver is accessible via SOAP <a href=http://www-abi.informatik.uni-tuebingen.de/Services/YLocSOAP>here</a></p>";
-  print "<p class=underl>To obtain the corresponding WSDL file <a href=http://www-abi.informatik.uni-tuebingen.de/Services/YLocSOAP?WSDL>click here</a></p>";
-  print "<p class=underl>A WSDL file compatible with ZSI 2.0 is available <a href='"+download_path+"YLocZSI.wsdl'>here</a></p>";
-  print "<p class=underl>The SOAP Server was established using <a href=http://pypi.python.org/pypi/ZSI/>ZSI 2.0 for Python</a> and the corresponding WSDL was verified using the <a href=http://validwsdl.com>eXtc WSDL Validator</a> and <a href='http://www.soapui.org'>soapUI 3.5</a>. We encourage to use software libraries to access YLoc via SOAP such as Axis or ZSI. Moreover, we provide example code based on Python ZSI including some instructions to establish a local YLoc interface.";
-  print "<BR>If you face problems using SOAP or ZSI, you can alternatively use a YLoc interface script based on Python which accesses YLoc via http.</p>"
-  print "<h3>Downloads</h3>";
-  print "<p class=underl>"
-  print "&nbsp;&nbsp;&nbsp;&nbsp;<a href='"+download_path+"YLocSOAPclient.zip'>YLoc SOAP client (ZIP-archive, 5 KB)</a><BR><BR>";
-  print "&nbsp;&nbsp;&nbsp;&nbsp;<a href='"+download_path+"YLocHTTPclient.zip'>YLoc HTTP client (ZIP-archive, 6 KB)</a></p>";
-
-  __print_foot();
-
-
-def __print_about_page():
-  __print_header();
-  __print_head();
-
-  print "<h2>If you use YLoc, please cite: </h2>";
-  print "<p>Sebastian Briesemeister, J&ouml;rg Rahnenf&uuml;hrer, and Oliver Kohlbacher, (2010). Going from where to why - interpretable prediction of protein subcellular localization, Bioinformatics, 26(9):1232-1238.</p>";
-  print "<p>Sebastian Briesemeister, J&ouml;rg Rahnenf&uuml;hrer, and Oliver Kohlbacher, (2010). YLoc - an interpretable web server for predicting subcellular localization, Nucleic Acids Research, 38:W497-W502.</p><BR><BR><BR>";
-  print "<p>If you face any problems using YLoc, please contact us:";
-  print " <a href=mailto:"+contact_email+">YLoc Admin</a></p><BR>";
-
-  __print_foot();
 
 # ### Main ###
 
@@ -1463,16 +1364,6 @@ try:
       __print_help_page();
     elif form["page"].value == "info":
       __print_info_page();
-    #elif form["page"].value == "soap":
-    #  __print_soap_page();
-    elif form["page"].value == "imprint":
-      __print_imprint_page();
-    elif form["page"].value == "gdpr":
-      __print_gdpr_page();
-    elif form["page"].value == "about":
-      __print_about_page();
-    #elif form["page"].value == "MuLESB82":
-    #  __print_admin_page();
     else:
       __print_start_screen("Unkown value of parameter 'page'. You have been redirected to the start page.");
 except:
