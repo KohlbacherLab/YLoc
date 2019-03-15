@@ -15,6 +15,6 @@ else:
 if os.environ.get("YL_GDPR_URL") != None:
     f.write("gdpr_url = '" + os.environ.get("YL_GDPR_URL") + "'\n")
 else:
-    f.write("gdpr_url = 'https://abi.inf.uni-tuebingen.de/impressum'\n")
+    f.write("gdpr_url = 'https://abi.inf.uni-tuebingen.de/datenschutzerklaerung'\n")
 
 f.close()
