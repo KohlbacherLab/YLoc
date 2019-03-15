@@ -5,7 +5,7 @@ Travis CI
 [![Build Status](https://travis-ci.org/KohlbacherLab/YLoc.svg?branch=master)](https://travis-ci.org/KohlbacherLab/YLoc)  
 
 This repository mainly provides a containerized installation of YLoc as a webservice.  
-Just build the image and start the container using the script [start_container.sh](YLoc/start_container.sh).  
+Just build the image and start the container using the script [start_container.sh](KohlbacherLab/YLoc/start_container.sh).  
 Have a look into that script to learn how everything works and to make some changes.  
 
 
