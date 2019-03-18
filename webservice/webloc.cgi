@@ -1316,8 +1316,8 @@ def __print_info_page():
   print "<BR><BR>";
 
   print "<h2>License</h2>";
-  print "<p>&nbsp;&nbsp;&nbsp;&nbsp;MultiLoc2 is distributed under the GNU General Public License (GPL).</p>";
-  print "<p>&nbsp;&nbsp;&nbsp;&nbsp;MultiLoc2 is using LIBSVM, BLAST, and InterProScan. These software tools have their own license terms.</p>";
+  print "<p>&nbsp;&nbsp;&nbsp;&nbsp;YLoc is distributed under the GNU General Public License (GPL).</p>";
+  print "<p>&nbsp;&nbsp;&nbsp;&nbsp;YLoc is using LIBSVM, BLAST, and InterProScan. These software tools have their own license terms.</p>";
   print "<BR><BR>";
 
   print "<h2>Third Party Software Tools</h2>";
