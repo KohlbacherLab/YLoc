@@ -23,6 +23,8 @@ COPY YLoc/ YLoc/
 RUN  chown -R www-data:www-data /YLoc
 RUN  chmod -R 775 /YLoc
 
+RUN mkdir /yljobs
+RUN chmod 777 /yljobs
 
 # ----------------------------------------------------------
 # Test YLoc
@@ -43,6 +45,7 @@ COPY webservice/downloads/  /var/www/html/cgi-bin/downloads/
 COPY webservice/images/     /var/www/html/cgi-bin/images/
 
 RUN mkdir /webservice
+ADD webservice/job_cleanup.sh      /webservice/job_cleanup.sh
 ADD webservice/ylsetup.py          /webservice/ylsetup.py
 ADD webservice/yloc_entrypoint.sh  /webservice/yloc_entrypoint.sh
 ADD webservice/ylocdb.sql          /webservice/ylocdb.sql

@@ -1,4 +1,11 @@
+# Initialize YLoc setup file
 python /webservice/ylsetup.py
+
+# Add cleanup script to cron
+crontab -l > current_cron
+echo "0 0 * * * sh /webservice/job_cleanup.sh" >> current_cron
+crontab current_cron
+rm current_cron
 
 chown -R mysql:mysql /var/lib/mysql
 /etc/init.d/mysql start
