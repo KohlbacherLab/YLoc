@@ -318,7 +318,7 @@ Intermediate Screen and Start of ML3 via independent thread
 """
 
 def __print_intermediate_screen(nr,id,finished=0):
-  __print_header(nr*10, id);
+  __print_header(10, id);
   __print_head();
 
   print "<h2>Prediction in progress</h2>";
@@ -1033,7 +1033,91 @@ def __printResultTable(result_id):
     __print_foot();
 
 
+def __parseSequenceData(input_field, input_file = ""):
+  if input_file != "" and not input_file.filename == "":
+    input_field = input_file.file.read();
+
+  input_field = input_field.upper();
+  lines = input_field.splitlines();
+  aasequences = AASequences();
+  alphabet = "ACDERTKSLQWYPGHVNMFI ";
+
+  if len(lines) > 0 and len(lines[0]) > 0 and lines[0][0] == '>':
+    name = "";
+    sequence = "";
+    for line in lines:
+      # clean line
+      line = line.lstrip(" \t");
+      line = line.replace(' ','');
+      line = line.replace('-','');
+
+      if len(line) > 0 and line[0] == '>':
+        if sequence != "":
+          if len(sequence) < 20:
+            return (0, "One protein sequence is too small (less than 20 amino acids). You have been redirected to the start page.")
+          aasequences.append((name, sequence));
+          if aasequences.size() > int(yl_max_seq):
+            return (0, "Please use at most " + yl_max_seq + " protein sequences in the web service. If you need to predict more proteins, please contact us.");
+        name = line[1:];
+        sequence = "";
+      else:
+        for elem in line:
+          if not elem in alphabet:
+            return None;
+        sequence += line;
+    if sequence != "":
+      if len(sequence) < 20:
+        return (0, "One protein sequence is too small (less than 20 amino acids). You have been redirected to the start page.");
+      aasequences.append((name, sequence));
+      if aasequences.size() > int(yl_max_seq):
+        return (0, "Please use at most " + yl_max_seq + " protein sequences in the web service. If you need to predict more proteins, please contact us.");
+  else:
+    name = "unknown_sequence";
+    sequence = "";
+    for line in lines:
+      # clean line
+      line = line.lstrip(" \t");
+      line = line.replace(' ','');
+      line = line.replace('-','');
+      for elem in line:
+          if not elem in alphabet:
+            return None;
+      sequence += line;
+    if len(sequence) < 20:
+      return (0, "One protein sequence is too small (less than 20 amino acids). You have been redirected to the start page.");
+    aasequences.append((name, sequence));
+    if len(aasequences) > int(yl_max_seq):
+      return (0, "Please use at most " + yl_max_seq + " protein sequences in the web service. If you need to predict more proteins, please contact us.");
+
+  if aasequences.size() == 0:
+    return (0, "Given protein sequence(s) have wrong format. You have been redirected to the start page.");
+
+  return (1, aasequences);
+
+
+
 def __print_prediction_page():
+  if form.has_key("plain_sequence"):
+
+    if form.has_key("fastafile"):
+      seq_parse_result = __parseSequenceData(form["plain_sequence"].value, form["fastafile"]);
+    else:
+      seq_parse_result = __parseSequenceData(form["plain_sequence"].value);
+
+    if seq_parse_result[0]:
+      # Everything went fine
+      m = Models();
+      model = m.getModelFromCombinations(form["model"].value, form["origin"].value, form["goterms"].value);
+      __getPrediction(seq_parse_result[1], model);
+    else:
+      # Something went wrong -> print error message on start Screen
+      __print_start_screen(seq_parse_result[1]);
+  else:
+    __print_start_screen("Missing value of parameter 'plain_sequence'. You have been redirected to the start page.");
+
+
+
+  '''
   if form.has_key("plain_sequence"):
     if form.has_key("fastafile"):
       aasequences = __createSequenceObject(form["plain_sequence"].value, form["fastafile"]);
@@ -1043,7 +1127,9 @@ def __print_prediction_page():
     if aasequences == None:
       __print_start_screen("Given protein sequence(s) have wrong format. You have been redirected to the start page.");
       return;
+
     too_small = False;
+
     for i in range(aasequences.size()):
       (name,seq) = aasequences.get(i);
       if len(seq) < 20:
@@ -1065,9 +1151,11 @@ def __print_prediction_page():
       #__printResultTable(result_id);
   else:
     __print_start_screen("Missing value of parameter 'plain_sequence'. You have been redirected to the start page.");
+  '''
 
 def __print_error(error_msg):
   print "<p><b><font color=#FF0000>An error occured: "+error_msg+"</b></p>";
+
 
 def __print_help_page():
   __print_header();

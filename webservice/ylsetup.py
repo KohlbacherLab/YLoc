@@ -17,4 +17,9 @@ if os.environ.get("YL_GDPR_URL") != None:
 else:
     f.write("gdpr_url = 'https://abi.inf.uni-tuebingen.de/datenschutzerklaerung'\n")
 
+if os.environ.get("YL_MAX_SEQ") != None:
+    f.write("yl_max_seq = '" + os.environ.get("YL_MAX_SEQ") + "'\n")
+else:
+    f.write("yl_max_seq = '20'\n")
+
 f.close()
